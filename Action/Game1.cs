@@ -11,9 +11,9 @@ namespace Action
     {
         GraphicsDeviceManager graphics;
         SpriteBatch spriteBatch;
-
-        
+     
         Map map;
+        Player player;
 
         public Game1()
         {
@@ -30,9 +30,8 @@ namespace Action
         protected override void Initialize()
         {
             // TODO: Add your initialization logic here
-
-       
-            map = new Map(Content);
+           map = new Map(Content);
+            player = new Player(Content);
 
             base.Initialize();
         }
@@ -70,7 +69,15 @@ namespace Action
                 Exit();
 
             // TODO: Add your update logic here
+            player.Move();
+           if( map.Collition(player.Postion,player.Y_size))
+            {
+                player.test = true;
+            }
+            else{
+                player.test = false;
 
+            }
             base.Update(gameTime);
         }
 
@@ -85,7 +92,8 @@ namespace Action
             // TODO: Add your drawing code here
             spriteBatch.Begin();
 
-            map.MapDraw(spriteBatch);
+            map.Draw(spriteBatch);
+            player.Draw(spriteBatch);
 
             spriteBatch.End();
 

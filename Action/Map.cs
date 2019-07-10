@@ -10,7 +10,7 @@ using System.Diagnostics;
 
 namespace Action
 {
-    class Map
+    class Map:Sprite
     {
 
         //マップ
@@ -21,12 +21,14 @@ namespace Action
             {0,0,0,0,0,0,0,0,0,0,0,0,0, 0,0,0,0,0,0,0,0,0,0,0,0,0},
             {0,0,0,0,0,0,0,0,0,0,0,0,0, 0,0,0,0,0,0,0,0,0,0,5,0,0},
             {0,0,0,0,0,0,0,0,0,0,0,0,0, 0,0,0,1,1,1,1,1,1,1,1,1,1},
-            {0,0,0,0,0,0,0,2,0,0,0,0,0, 0,0,0,1,1,1,1,1,1,1,1,1,1},
+            {0,0,0,1,1,1,1,1,1,1,1,1,0, 0,0,0,1,1,1,1,1,1,1,1,1,1},
             {1,1,1,1,1,1,1,1,1,1,1,1,1, 1,1,1,1,1,1,1,1,1,1,1,1,1},
             {1,1,1,1,1,1,1,1,1,1,1,1,1, 1,1,1,1,1,1,1,1,1,1,1,1,1}
             };
         const int WIDTH = 26;
         const int HEIGHT = 8;
+
+        List<Vector2> test= new List<Vector2>();
 
         //テクスチャ
         Texture2D mapChip;
@@ -36,14 +38,31 @@ namespace Action
         {
             mapChip = content.Load<Texture2D>("block");
         }
+        public bool Collition(Vector2 otherPos ,int height)
+        {
+            Debug.WriteLine(otherPos.Y);
+          for(int i = 0; i < test.Count; i++)
+            {               
+                    if(otherPos.Y+height >= test[i].Y && otherPos.X+41>=test[i].X&&otherPos.X+41<=test[i].X+CHIP_SIZE)
+                {
+                    return true;
+                }
+            }
+            return false;
+        }
 
-        public void MapDraw(SpriteBatch spriteBatch)
+        public override void Draw(SpriteBatch spriteBatch)
         {
             for (int i = 0; i < HEIGHT; i++)
             {
                 for (int j = 0; j < WIDTH; j++)
                 {
-                    spriteBatch.Draw(mapChip, new Rectangle(j * CHIP_SIZE, i * CHIP_SIZE, CHIP_SIZE, CHIP_SIZE), new Rectangle(64 * mapChipNum[i, j], 0, CHIP_SIZE, CHIP_SIZE), Color.White);
+                    spriteBatch.Draw(mapChip, new Rectangle(j * CHIP_SIZE, i * CHIP_SIZE, CHIP_SIZE, CHIP_SIZE), new Rectangle(CHIP_SIZE * mapChipNum[i, j], 0, CHIP_SIZE, CHIP_SIZE), Color.White);
+
+                    if (mapChipNum[i, j] == 1)
+                    {
+                        test.Add(new Vector2(j * CHIP_SIZE, i * CHIP_SIZE));
+                    }
                 }
             }
 
