@@ -25,12 +25,16 @@ namespace Action
 
        public  bool test=false;
 
-        public Player(ContentManager content)
+        public Player()
         {
             position = new Vector2(200, 0);
             velocity = Vector2.Zero;
             grabity = new Vector2(0, 3);
 
+        }
+
+        public void SetTexture(ContentManager content)
+        {
             texture = content.Load<Texture2D>("player");
         }
 

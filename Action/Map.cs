@@ -10,7 +10,7 @@ using System.Diagnostics;
 
 namespace Action
 {
-    class Map:Sprite
+    class Map
     {
 
         //マップ
@@ -34,10 +34,16 @@ namespace Action
         Texture2D mapChip;
         const int CHIP_SIZE = 64;
 
-        public Map(ContentManager content)
+        public Map()
+        {
+            
+        }
+
+        public void SetTexture(ContentManager content)
         {
             mapChip = content.Load<Texture2D>("block");
         }
+
         public bool Collition(Vector2 otherPos ,int height)
         {
             Debug.WriteLine(otherPos.Y);
@@ -51,7 +57,7 @@ namespace Action
             return false;
         }
 
-        public override void Draw(SpriteBatch spriteBatch)
+        public  void Draw(SpriteBatch spriteBatch)
         {
             for (int i = 0; i < HEIGHT; i++)
             {

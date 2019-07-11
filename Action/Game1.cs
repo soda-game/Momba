@@ -30,8 +30,8 @@ namespace Action
         protected override void Initialize()
         {
             // TODO: Add your initialization logic here
-           map = new Map(Content);
-            player = new Player(Content);
+           map = new Map();
+            player = new Player();
 
             base.Initialize();
         }
@@ -47,6 +47,8 @@ namespace Action
             graphics.PreferredBackBufferWidth = 800;
             graphics.PreferredBackBufferHeight = 600;
             // TODO: use this.Content to load your game content here
+            map.SetTexture(Content);
+            player.SetTexture(Content);
         }
 
         /// <summary>
