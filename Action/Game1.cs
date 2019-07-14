@@ -1,6 +1,7 @@
 ﻿using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using Microsoft.Xna.Framework.Input;
+using System.Diagnostics;
 
 namespace Action
 {
@@ -11,7 +12,7 @@ namespace Action
     {
         GraphicsDeviceManager graphics;
         SpriteBatch spriteBatch;
-     
+
         Map map;
         Player player;
 
@@ -30,7 +31,7 @@ namespace Action
         protected override void Initialize()
         {
             // TODO: Add your initialization logic here
-           map = new Map();
+            map = new Map();
             player = new Player();
 
             base.Initialize();
@@ -72,14 +73,7 @@ namespace Action
 
             // TODO: Add your update logic here
             player.Move();
-           if( map.Collition(player.Postion,player.Y_size))
-            {
-                player.test = true;
-            }
-            else{
-                player.test = false;
-
-            }
+          
             base.Update(gameTime);
         }
 
@@ -94,7 +88,7 @@ namespace Action
             // TODO: Add your drawing code here
             spriteBatch.Begin();
 
-            map.Draw(spriteBatch);
+            map.Draw(spriteBatch,player.scroll);
             player.Draw(spriteBatch);
 
             spriteBatch.End();

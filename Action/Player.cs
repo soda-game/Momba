@@ -7,71 +7,73 @@ using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using Microsoft.Xna.Framework.Content;
 using Microsoft.Xna.Framework.Input;
+using System.Diagnostics;
 
 namespace Action
 {
-    class Player:Sprite
+    class Player 
     {
         Vector2 position;
         public Vector2 Postion => position;
         Vector2 velocity;
-        const float SPEED=3;
-        Vector2 grabity;
+        const float SPEED = 3;
+       public Vector2 scroll;
 
         Texture2D texture;
-        const int X_SIZE = 41;
+        const int X_SIZE = 64;
         const int Y_SIZE = 64;
-        public int Y_size => Y_SIZE;
-
-       public  bool test=false;
+        
 
         public Player()
         {
-            position = new Vector2(200, 0);
+            position = new Vector2(200, 200);
             velocity = Vector2.Zero;
-            grabity = new Vector2(0, 3);
 
         }
 
         public void SetTexture(ContentManager content)
         {
-            texture = content.Load<Texture2D>("player");
+            texture = content.Load<Texture2D>("block");
         }
 
         public void Move()
         {
             velocity = Vector2.Zero;
-            grabity = new Vector2(0,2);
 
             if (Keyboard.GetState().IsKeyDown(Keys.A))
             {
                 velocity.X -= SPEED;
+                if (position.X-scroll.X < 10)
+                {
+                    scroll.X-=velocity.X;
+                }
             }
-            if (Keyboard.GetState().IsKeyDown(Keys.D))
+            if (Keyboard.GetState().IsKeyDown(Keys.D) )
             {
-                velocity.X = SPEED;
+                velocity.X += SPEED;
             }
-
-            if (test)
+            if (Keyboard.GetState().IsKeyDown(Keys.W))
             {
-                grabity=Vector2.Zero;
+                velocity.Y -= SPEED;
             }
-
-
-            position += velocity + grabity;
+            if (Keyboard.GetState().IsKeyDown(Keys.S))
+            {
+                velocity.Y += SPEED;
+            }
+            position += velocity;
         }
 
-        public void  stand()
+        public void Collition(Vector2 otherPos, int height)
         {
-            
-        } 
-
-
-        public override void Draw(SpriteBatch spriteBatch)
-        {
-            
-                    spriteBatch.Draw(texture, new Rectangle((int)position.X,(int)position.Y, X_SIZE, Y_SIZE), new Rectangle(X_SIZE * 0, 0, X_SIZE, Y_SIZE), Color.White);
            
+        }
+
+
+        public void Draw(SpriteBatch spriteBatch)
+        {
+
+            spriteBatch.Draw(texture, new Rectangle((int)position.X+(int)scroll.X, (int)position.Y, X_SIZE, Y_SIZE), new Rectangle(64, 0, X_SIZE, Y_SIZE), Color.White);
+
 
         }
     }
