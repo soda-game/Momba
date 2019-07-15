@@ -20,7 +20,7 @@ namespace Action
         const float SPEED = 3;
 
         public Vector2 scroll;
-        const int SCROLL_RIGHT=500;
+        const int SCROLL_RIGHT = 500;
         const int SCROLL_LEFT = 100;
 
         //テクスチャ
@@ -35,7 +35,7 @@ namespace Action
         bool CollitionD;
         public Player()
         {
-            position = new Vector2(64, 64);
+            position = new Vector2(64, 68);
             velocity = Vector2.Zero;
             scroll = Vector2.Zero;
             CollitionL = false;
@@ -51,37 +51,46 @@ namespace Action
 
         public void Move()
         {
-          
 
-            if (Keyboard.GetState().IsKeyDown(Keys.A)&&!CollitionL)
+
+            if (Keyboard.GetState().IsKeyDown(Keys.A) && !CollitionL)
             {
-                CollitionL=false;
+
+                CollitionU = false;
+                CollitionD = false;
+                CollitionL = false;
                 CollitionR = false;
                 velocity.X = -SPEED;
-              
+
             }
-            if (Keyboard.GetState().IsKeyDown(Keys.D)&& !CollitionR)
+            if (Keyboard.GetState().IsKeyDown(Keys.D) && !CollitionR)
             {
-                CollitionR = false;
+                CollitionU = false;
+                CollitionD = false;
                 CollitionL = false;
+                CollitionR = false;
                 velocity.X = +SPEED;
-                
+
             }
             if (Keyboard.GetState().IsKeyDown(Keys.W) && !CollitionU)
             {
                 CollitionU = false;
                 CollitionD = false;
+                CollitionR = false;
+                CollitionL = false;
                 velocity.Y = -SPEED;
             }
             if (Keyboard.GetState().IsKeyDown(Keys.S) && !CollitionD)
             {
                 CollitionU = false;
                 CollitionD = false;
+                CollitionR = false;
+                CollitionL = false;
                 velocity.Y = +SPEED;
             }
 
-          //フラグが一つでもtrueなら止める
-            if (!CollitionL&& !CollitionR&& !CollitionD && !CollitionU)
+            //フラグが一つでもtrueなら止める
+            if (!CollitionL && !CollitionR && !CollitionD && !CollitionU)
             {
                 position += velocity;
                 if (position.X - scroll.X > SCROLL_RIGHT)
@@ -95,9 +104,9 @@ namespace Action
             }
             else
             {
-                velocity=Vector2.Zero;
+                velocity = Vector2.Zero;
             }
-           
+
 
 
         }
@@ -111,14 +120,16 @@ namespace Action
             //プレイヤーの右端・下端を配列番号に
             int rightX = ((int)position.X + X_SIZE) / mapChipSize;
             int downY = ((int)position.Y + Y_SIZE) / mapChipSize;
+            int midleX = ((int)position.X + 32) / mapChipSize;
+            int midleY = ((int)position.Y + 32) / mapChipSize;
 
             //プレイヤーの右が当たったら
-            if ((mapChipNum[upY, rightX] == 1 || mapChipNum[upY, leftX] == 1) && (position.X + X_SIZE >= rightX * mapChipSize))
+            if ((mapChipNum[midleY, rightX] == 1) && (position.X + X_SIZE > rightX * mapChipSize))
             {
                 CollitionR = true;
             }
-           //プレイヤーの左が当たったら
-           else if ((mapChipNum[upY,leftX] == 1 || mapChipNum[downY, leftX] == 1) && (position.X <= leftX * mapChipSize+mapChipSize))
+            //プレイヤーの左が当たったら
+            else if ((mapChipNum[midleY, leftX] == 1 ) && (position.X < leftX * mapChipSize + mapChipSize))
             {
                 CollitionL = true;
             }
@@ -129,13 +140,16 @@ namespace Action
 
             }
 
-            if ((mapChipNum[downY, rightX] == 1 || mapChipNum[downY, leftX] == 1) && (position.Y + Y_SIZE >= downY * mapChipSize))
+            //プレイヤーの下が当たったら
+
+            if (mapChipNum[downY, midleX] == 1 && position.Y + Y_SIZE >= downY * mapChipSize)
             {
                 CollitionD = true;
             }
-            //プレイヤーの左が当たったら
-            else if ((mapChipNum[upY, leftX] == 1 || mapChipNum[upY, rightX] == 1) && (position.Y <= upY * mapChipSize + mapChipSize))
+            //プレイヤーの上が当たったら
+            else if (mapChipNum[upY, midleX] == 1 && position.Y <= upY * mapChipSize + mapChipSize)
             {
+
                 CollitionU = true;
             }
             else
@@ -145,12 +159,13 @@ namespace Action
 
             }
 
-            Debug.WriteLine("R"+CollitionR);
-                Debug.WriteLine("L" + CollitionL);
+            Debug.WriteLine("R" + CollitionR);
+            Debug.WriteLine("L" + CollitionL);
             Debug.WriteLine("D" + CollitionD);
             Debug.WriteLine("U" + CollitionU);
         }
 
+        
 
         public void Draw(SpriteBatch spriteBatch)
         {
