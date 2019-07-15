@@ -29,14 +29,19 @@ namespace Action
         const int Y_SIZE = 64;
 
         //フラグ
-        int moveStop; //0=当たってない 1=左 2=右　3=上 4=下 enum
- 
+        bool CollitionL; //0=当たってない 1=左 2=右　3=上 4=下 enum
+        bool CollitionR;
+        bool CollitionU;
+        bool CollitionD;
         public Player()
         {
             position = new Vector2(64, 64);
             velocity = Vector2.Zero;
             scroll = Vector2.Zero;
-            moveStop = 0;
+            CollitionL = false;
+            CollitionR = false;
+            CollitionU = false;
+            CollitionD = false;
         }
 
         public void SetTexture(ContentManager content)
@@ -48,29 +53,35 @@ namespace Action
         {
           
 
-            if (Keyboard.GetState().IsKeyDown(Keys.A)&&moveStop!=1)
+            if (Keyboard.GetState().IsKeyDown(Keys.A)&&!CollitionL)
             {
-                moveStop=0;
+                CollitionL=false;
+                CollitionR = false;
                 velocity.X = -SPEED;
               
             }
-            if (Keyboard.GetState().IsKeyDown(Keys.D)&& moveStop!=2)
+            if (Keyboard.GetState().IsKeyDown(Keys.D)&& !CollitionR)
             {
-                moveStop = 0;
+                CollitionR = false;
+                CollitionL = false;
                 velocity.X = +SPEED;
                 
             }
-            if (Keyboard.GetState().IsKeyDown(Keys.W))
+            if (Keyboard.GetState().IsKeyDown(Keys.W) && !CollitionU)
             {
-                velocity.Y -= SPEED;
+                CollitionU = false;
+                CollitionD = false;
+                velocity.Y = -SPEED;
             }
-            if (Keyboard.GetState().IsKeyDown(Keys.S))
+            if (Keyboard.GetState().IsKeyDown(Keys.S) && !CollitionD)
             {
-                velocity.Y += SPEED;
+                CollitionU = false;
+                CollitionD = false;
+                velocity.Y = +SPEED;
             }
 
           //フラグが一つでもtrueなら止める
-            if (moveStop==0)
+            if (!CollitionL&& !CollitionR&& !CollitionD && !CollitionU)
             {
                 position += velocity;
                 if (position.X - scroll.X > SCROLL_RIGHT)
@@ -81,6 +92,10 @@ namespace Action
                 {
                     scroll.X += velocity.X;
                 }
+            }
+            else
+            {
+                velocity=Vector2.Zero;
             }
            
 
@@ -98,23 +113,42 @@ namespace Action
             int downY = ((int)position.Y + Y_SIZE) / mapChipSize;
 
             //プレイヤーの右が当たったら
-            if ((mapChipNum[upY, rightX] == 1 || mapChipNum[downY, rightX] == 1) && (position.X + X_SIZE >= rightX * mapChipSize))
+            if ((mapChipNum[upY, rightX] == 1 || mapChipNum[upY, leftX] == 1) && (position.X + X_SIZE >= rightX * mapChipSize))
             {
-                moveStop = 2;
+                CollitionR = true;
             }
            //プレイヤーの左が当たったら
            else if ((mapChipNum[upY,leftX] == 1 || mapChipNum[downY, leftX] == 1) && (position.X <= leftX * mapChipSize+mapChipSize))
             {
-                moveStop = 1;
+                CollitionL = true;
             }
             else
             {
-                moveStop = 0;
+                CollitionL = false;
+                CollitionR = false;
 
             }
-           
 
-                Debug.WriteLine(moveStop);
+            if ((mapChipNum[downY, rightX] == 1 || mapChipNum[downY, leftX] == 1) && (position.Y + Y_SIZE >= downY * mapChipSize))
+            {
+                CollitionD = true;
+            }
+            //プレイヤーの左が当たったら
+            else if ((mapChipNum[upY, leftX] == 1 || mapChipNum[upY, rightX] == 1) && (position.Y <= upY * mapChipSize + mapChipSize))
+            {
+                CollitionU = true;
+            }
+            else
+            {
+                CollitionU = false;
+                CollitionD = false;
+
+            }
+
+            Debug.WriteLine("R"+CollitionR);
+                Debug.WriteLine("L" + CollitionL);
+            Debug.WriteLine("D" + CollitionD);
+            Debug.WriteLine("U" + CollitionU);
         }
 
 
