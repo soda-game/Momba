@@ -73,7 +73,7 @@ namespace Action
 
             // TODO: Add your update logic here
             player.Move();
-          
+            player.Collition(map.MapChipNum,map.ChipSize);
             base.Update(gameTime);
         }
 

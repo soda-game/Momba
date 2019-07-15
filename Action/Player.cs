@@ -28,7 +28,7 @@ namespace Action
         {
             position = new Vector2(200, 200);
             velocity = Vector2.Zero;
-
+            scroll = Vector2.Zero;
         }
 
         public void SetTexture(ContentManager content)
@@ -45,12 +45,16 @@ namespace Action
                 velocity.X -= SPEED;
                 if (position.X-scroll.X < 10)
                 {
-                    scroll.X-=velocity.X;
+                    scroll.X+=velocity.X;
                 }
             }
             if (Keyboard.GetState().IsKeyDown(Keys.D) )
             {
                 velocity.X += SPEED;
+                if (position.X - scroll.X > 100)
+                {
+                    scroll.X += velocity.X;
+                }
             }
             if (Keyboard.GetState().IsKeyDown(Keys.W))
             {
@@ -63,16 +67,33 @@ namespace Action
             position += velocity;
         }
 
-        public void Collition(Vector2 otherPos, int height)
+        //当たり判定
+        public void Collition(int[,] mapChipNum,int chipSize)
         {
-           
+            //プレイヤーの座標(左端)を配列番号に
+           int j = (int)position.X/chipSize;
+           int i = (int)position.Y / chipSize;
+            //プレイヤーの右端・下端を配列番号に
+            int RightJ = ((int)position.X+X_SIZE) / chipSize;
+            int DownI = (int)position.Y+Y_SIZE / chipSize;
+
+            Debug.WriteLine("Chip:" + (RightJ*chipSize));
+            Debug.WriteLine("Player:" + (position.X + X_SIZE));
+
+            if (mapChipNum[i, j] == 1|| mapChipNum[i, RightJ] == 1)
+            {
+                if (position.X <= j*chipSize + chipSize&& position.X + X_SIZE >= RightJ * chipSize)
+                {
+                    Debug.WriteLine("a");
+                }
+                
+            }
         }
 
 
         public void Draw(SpriteBatch spriteBatch)
         {
-
-            spriteBatch.Draw(texture, new Rectangle((int)position.X+(int)scroll.X, (int)position.Y, X_SIZE, Y_SIZE), new Rectangle(64, 0, X_SIZE, Y_SIZE), Color.White);
+            spriteBatch.Draw(texture, new Rectangle((int)position.X-(int)scroll.X, (int)position.Y, X_SIZE, Y_SIZE), new Rectangle(64, 0, X_SIZE, Y_SIZE), Color.White);
 
 
         }
