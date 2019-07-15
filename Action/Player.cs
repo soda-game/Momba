@@ -28,20 +28,12 @@ namespace Action
         const int X_SIZE = 64;
         const int Y_SIZE = 64;
 
-        //フラグ
-        bool CollitionL; //0=当たってない 1=左 2=右　3=上 4=下 enum
-        bool CollitionR;
-        bool CollitionU;
-        bool CollitionD;
         public Player()
         {
             position = new Vector2(64, 68);
             velocity = Vector2.Zero;
             scroll = Vector2.Zero;
-            CollitionL = false;
-            CollitionR = false;
-            CollitionU = false;
-            CollitionD = false;
+  
         }
 
         public void SetTexture(ContentManager content)
@@ -53,59 +45,41 @@ namespace Action
         {
 
 
-            if (Keyboard.GetState().IsKeyDown(Keys.A) && !CollitionL)
+            if (Keyboard.GetState().IsKeyDown(Keys.A) )
             {
 
-                CollitionU = false;
-                CollitionD = false;
-                CollitionL = false;
-                CollitionR = false;
                 velocity.X = -SPEED;
 
             }
-            if (Keyboard.GetState().IsKeyDown(Keys.D) && !CollitionR)
+            if (Keyboard.GetState().IsKeyDown(Keys.D) )
             {
-                CollitionU = false;
-                CollitionD = false;
-                CollitionL = false;
-                CollitionR = false;
+
                 velocity.X = +SPEED;
 
             }
-            if (Keyboard.GetState().IsKeyDown(Keys.W) && !CollitionU)
+            if (Keyboard.GetState().IsKeyDown(Keys.W))
             {
-                CollitionU = false;
-                CollitionD = false;
-                CollitionR = false;
-                CollitionL = false;
+
                 velocity.Y = -SPEED;
             }
-            if (Keyboard.GetState().IsKeyDown(Keys.S) && !CollitionD)
+            if (Keyboard.GetState().IsKeyDown(Keys.S) )
             {
-                CollitionU = false;
-                CollitionD = false;
-                CollitionR = false;
-                CollitionL = false;
+
                 velocity.Y = +SPEED;
             }
 
-            //フラグが一つでもtrueなら止める
-            if (!CollitionL && !CollitionR && !CollitionD && !CollitionU)
-            {
-                position += velocity;
-                if (position.X - scroll.X > SCROLL_RIGHT)
-                {
-                    scroll.X += velocity.X;
-                }
-                if (position.X - scroll.X < 10)
-                {
-                    scroll.X += velocity.X;
-                }
-            }
-            else
-            {
-                velocity = Vector2.Zero;
-            }
+               position += velocity;
+            //    if (position.X - scroll.X > SCROLL_RIGHT)
+            //    {
+            //        scroll.X += velocity.X;
+            //    }
+            //    if (position.X - scroll.X < 10)
+            //    {
+            //        scroll.X += velocity.X;
+            //    }
+            
+               velocity = Vector2.Zero;
+           
 
 
 
@@ -120,52 +94,51 @@ namespace Action
             //プレイヤーの右端・下端を配列番号に
             int rightX = ((int)position.X + X_SIZE) / mapChipSize;
             int downY = ((int)position.Y + Y_SIZE) / mapChipSize;
-            int midleX = ((int)position.X + 32) / mapChipSize;
-            int midleY = ((int)position.Y + 32) / mapChipSize;
+            //プレイヤーの中心を配列番号に
+            int middleX = ((int)position.X + 32) / mapChipSize;
+            int middleY = ((int)position.Y + 32) / mapChipSize;
 
             //プレイヤーの右が当たったら
-            if ((mapChipNum[midleY, rightX] == 1) && (position.X + X_SIZE > rightX * mapChipSize))
+            if ((mapChipNum[middleY, rightX] == 1) && (position.X + X_SIZE > rightX * mapChipSize))
             {
-                CollitionR = true;
+
+                FixPosiiton(new Vector2(rightX * mapChipSize - X_SIZE, position.Y));
             }
             //プレイヤーの左が当たったら
-            else if ((mapChipNum[midleY, leftX] == 1 ) && (position.X < leftX * mapChipSize + mapChipSize))
+            else if ((mapChipNum[middleY, leftX] == 1) && (position.X < leftX * mapChipSize + mapChipSize))
             {
-                CollitionL = true;
+                FixPosiiton(new Vector2(leftX * mapChipSize + mapChipSize, position.Y));
+
             }
             else
             {
-                CollitionL = false;
-                CollitionR = false;
+
 
             }
 
             //プレイヤーの下が当たったら
 
-            if (mapChipNum[downY, midleX] == 1 && position.Y + Y_SIZE >= downY * mapChipSize)
+            if (mapChipNum[downY, middleX] == 1 && position.Y + Y_SIZE >= downY * mapChipSize)
             {
-                CollitionD = true;
+                FixPosiiton(new Vector2(position.X, downY * mapChipSize - Y_SIZE));
+
             }
             //プレイヤーの上が当たったら
-            else if (mapChipNum[upY, midleX] == 1 && position.Y <= upY * mapChipSize + mapChipSize)
+            else if (mapChipNum[upY, middleX] == 1 && position.Y <= upY * mapChipSize + mapChipSize)
             {
+                FixPosiiton(new Vector2(position.X, upY * mapChipSize + mapChipSize));
 
-                CollitionU = true;
             }
             else
             {
-                CollitionU = false;
-                CollitionD = false;
 
             }
-
-            Debug.WriteLine("R" + CollitionR);
-            Debug.WriteLine("L" + CollitionL);
-            Debug.WriteLine("D" + CollitionD);
-            Debug.WriteLine("U" + CollitionU);
         }
 
-        
+        public void FixPosiiton(Vector2 fixPos)
+        {
+            position = fixPos;
+        }
 
         public void Draw(SpriteBatch spriteBatch)
         {
