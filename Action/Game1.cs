@@ -1,6 +1,7 @@
 ﻿using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using Microsoft.Xna.Framework.Input;
+using System.Diagnostics;
 
 namespace Action
 {
@@ -12,8 +13,8 @@ namespace Action
         GraphicsDeviceManager graphics;
         SpriteBatch spriteBatch;
 
-        
         Map map;
+        Player player;
 
         public Game1()
         {
@@ -30,9 +31,8 @@ namespace Action
         protected override void Initialize()
         {
             // TODO: Add your initialization logic here
-
-       
-            map = new Map(Content);
+            map = new Map();
+            player = new Player();
 
             base.Initialize();
         }
@@ -48,6 +48,8 @@ namespace Action
             graphics.PreferredBackBufferWidth = 800;
             graphics.PreferredBackBufferHeight = 600;
             // TODO: use this.Content to load your game content here
+            map.SetTexture(Content);
+            player.SetTexture(Content);
         }
 
         /// <summary>
@@ -70,7 +72,8 @@ namespace Action
                 Exit();
 
             // TODO: Add your update logic here
-
+            player.Move();
+            player.Collition(map.MapChipNum,map.ChipSize);
             base.Update(gameTime);
         }
 
@@ -85,7 +88,8 @@ namespace Action
             // TODO: Add your drawing code here
             spriteBatch.Begin();
 
-            map.MapDraw(spriteBatch);
+            map.Draw(spriteBatch,player.scroll);
+            player.Draw(spriteBatch);
 
             spriteBatch.End();
 
