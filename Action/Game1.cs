@@ -32,15 +32,15 @@ namespace Action
         {
             // TODO: Add your initialization logic here
             Init();
-            map = new Map();
-            player = new Player();
+    
             base.Initialize();
         }
-      static void Init()
+        void Init()
         {
-            //map = new Map();
-            //player = new Player();
-
+            map = new Map();
+            player = new Player();
+            map.SetTexture(Content);
+            player.SetTexture(Content);
         }
 
         /// <summary>
@@ -54,8 +54,6 @@ namespace Action
             graphics.PreferredBackBufferWidth = 800;
             graphics.PreferredBackBufferHeight = 600;
             // TODO: use this.Content to load your game content here
-            map.SetTexture(Content);
-            player.SetTexture(Content);
         }
 
         /// <summary>
@@ -79,7 +77,9 @@ namespace Action
 
             // TODO: Add your update logic here
             player.Move();
-            player.Collition(map.MapChipNum,map.ChipSize);
+            player.Collition(map.MapChipNum, map.ChipSize);
+
+
 
             if (Keyboard.GetState().IsKeyDown(Keys.I))
             {
@@ -100,7 +100,7 @@ namespace Action
             // TODO: Add your drawing code here
             spriteBatch.Begin();
 
-            map.Draw(spriteBatch,player.scroll);
+            map.Draw(spriteBatch, player.scroll);
             player.Draw(spriteBatch);
 
             spriteBatch.End();
