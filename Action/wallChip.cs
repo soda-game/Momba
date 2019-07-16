@@ -10,23 +10,9 @@ using System.Diagnostics;
 
 namespace Action
 {
-    class WallChip:Map
+    class WallChip : Map
     {
-      //プレイヤーの右が当たったら
-           // if ((mapChipNum[downY, rightX] == 1 || mapChipNum[downY, leftX] == 1) && (position.Y + Y_SIZE >= downY* mapChipSize))
-           // {
-           //     collitionD = true;
-           // }
-           ////プレイヤーの左が当たったら
-           //else if ((mapChipNum[upY, leftX] == 1 || mapChipNum[upY, rightX] == 1) && (position.Y <= upY* mapChipSize+mapChipSize))
-           // {
-           //     CollitionU = true;
-           // }
-           // else
-           // {
-           //     CollitionU = false;
-           //     collitionD = false;
 
-           // }
+
     }
-}
+    }
