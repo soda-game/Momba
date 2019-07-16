@@ -14,7 +14,7 @@ namespace Action
     {
 
         //マップ
-        int[,] mapChipNum =
+        int[,] mapChipNumBase =             //数字変えない！！！！
             {
             {1,1,1,1,1,1,1,1,1,1,1,1,1, 1,1,1,1,1,1,1,1,1,1,1,1,1},
             {1,0,0,0,0,0,0,0,0,0,0,0,1, 1,0,0,0,0,0,0,0,0,0,0,0,1},
@@ -25,6 +25,8 @@ namespace Action
             {1,0,0,0,0,0,0,0,0,0,0,0,1, 1,0,0,0,0,0,0,0,0,0,0,0,1},
             {1,1,1,1,1,1,1,1,1,1,1,1,1, 1,1,1,1,1,1,1,1,1,1,1,1,1}
             };
+
+        int[,] mapChipNum; //変える用
         public int[,] MapChipNum => mapChipNum;
         const int WIDTH = 26;
         const int HEIGHT = 8;
@@ -32,11 +34,11 @@ namespace Action
         //テクスチャ
         Texture2D mapChip;
         const int CHIP_SIZE = 64;
-        public int ChipSize=>CHIP_SIZE;
+        public int ChipSize => CHIP_SIZE;
 
         public Map()
         {
-            
+            mapChipNum = mapChipNumBase;
         }
 
         public void SetTexture(ContentManager content)

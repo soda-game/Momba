@@ -20,8 +20,8 @@ namespace Action
         const float SPEED = 7;
 
         public Vector2 scroll;
-        const int SCROLL_RIGHT = 500;
-        const int SCROLL_LEFT = 100;
+        const int SCROLL_RIGHT = 600;
+        const int SCROLL_LEFT = 63;
 
         //テクスチャ
         Texture2D texture;
@@ -33,7 +33,7 @@ namespace Action
 
         public Player()
         {
-            position = new Vector2(64, 68);
+            position = new Vector2(64, 64);
             velocity = Vector2.Zero;
             scroll = Vector2.Zero;
             nowMove = false;
@@ -69,20 +69,25 @@ namespace Action
                     velocity.Y = +SPEED;
                 }
             }
-            else
+
+            position += velocity;
+
+        }
+
+        //スクロール
+        void Scroll()
+        {
+            if (nowMove)
             {
                 if (position.X - scroll.X > SCROLL_RIGHT)
                 {
                     scroll.X += velocity.X;
                 }
-                if (position.X - scroll.X < SCROLL_LEFT)
+                else if (position.X - scroll.X < SCROLL_LEFT)
                 {
                     scroll.X += velocity.X;
                 }
             }
-
-            position += velocity;
-
         }
 
         //当たり判定
@@ -101,39 +106,39 @@ namespace Action
             //プレイヤーの右が当たったら
             if ((mapChipNum[middleY, rightX] == 1) && (position.X + WIDTH > rightX * mapChipSize))
             {
-                velocity = Vector2.Zero;
-                nowMove = false;
+                StopMove();
                 FixPosiiton(new Vector2(rightX * mapChipSize - WIDTH, position.Y)); //補正
             }
             //プレイヤーの左が当たったら
             if ((mapChipNum[middleY, leftX] == 1) && (position.X < leftX * mapChipSize + mapChipSize))
             {
+                StopMove();
                 FixPosiiton(new Vector2(leftX * mapChipSize + mapChipSize, position.Y));
-                velocity = Vector2.Zero;
-                nowMove = false;
-
             }
             //プレイヤーの下が当たったら
             if (mapChipNum[downY, middleX] == 1 && position.Y + HEIGHT > downY * mapChipSize)
             {
+                StopMove();
                 FixPosiiton(new Vector2(position.X, downY * mapChipSize - HEIGHT));
-                nowMove = false;
-                velocity = Vector2.Zero;
-
             }
             //プレイヤーの上が当たったら
             if (mapChipNum[upY, middleX] == 1 && position.Y < upY * mapChipSize + mapChipSize)
             {
+                StopMove();
                 FixPosiiton(new Vector2(position.X, upY * mapChipSize + mapChipSize));
-                velocity = Vector2.Zero;
-                nowMove = false;
-
             }
 
         }
 
+        //止める
+        void StopMove()
+        {
+            velocity = Vector2.Zero;
+            nowMove = false;
+        }
+
         //プレイヤーが当たった画像にめり込まないように補正する
-        public void FixPosiiton(Vector2 fixPos)
+       void FixPosiiton(Vector2 fixPos)
         {
             position = fixPos;
         }

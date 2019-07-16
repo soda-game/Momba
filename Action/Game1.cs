@@ -31,10 +31,16 @@ namespace Action
         protected override void Initialize()
         {
             // TODO: Add your initialization logic here
+            Init();
             map = new Map();
             player = new Player();
-
             base.Initialize();
+        }
+      static void Init()
+        {
+            //map = new Map();
+            //player = new Player();
+
         }
 
         /// <summary>
@@ -74,6 +80,12 @@ namespace Action
             // TODO: Add your update logic here
             player.Move();
             player.Collition(map.MapChipNum,map.ChipSize);
+
+            if (Keyboard.GetState().IsKeyDown(Keys.I))
+            {
+                Init();
+            }
+
             base.Update(gameTime);
         }
 
