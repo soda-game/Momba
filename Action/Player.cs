@@ -28,6 +28,12 @@ namespace Action
         const int WIDTH = 64;
         const int HEIGHT = 64;
 
+        //別クラスで使うのでプロパティ化
+        int middleX;
+        public int MiddleX => middleX;
+        int middleY;
+        public int MiddleY => middleY;
+
         //フラグ
         bool nowMove;
 
@@ -75,7 +81,7 @@ namespace Action
         }
 
         //スクロール
-        void Scroll()
+       public void Scroll()
         {
             if (nowMove)
             {
@@ -100,11 +106,11 @@ namespace Action
             int rightX = ((int)position.X + WIDTH) / mapChipSize;
             int downY = ((int)position.Y + HEIGHT) / mapChipSize;
             //プレイヤーの中心を配列番号に
-            int middleX = ((int)position.X + 32) / mapChipSize;
-            int middleY = ((int)position.Y + 32) / mapChipSize;
+            middleX = ((int)position.X + 32) / mapChipSize;
+             middleY = ((int)position.Y + 32) / mapChipSize;
 
             //プレイヤーの右が当たったら
-            if ((mapChipNum[middleY, rightX] == 1) && (position.X + WIDTH > rightX * mapChipSize))
+            if (mapChipNum[middleY, rightX] == 1 && position.X + WIDTH > rightX * mapChipSize)
             {
                 StopMove();
                 FixPosiiton(new Vector2(rightX * mapChipSize - WIDTH, position.Y)); //補正
@@ -127,7 +133,6 @@ namespace Action
                 StopMove();
                 FixPosiiton(new Vector2(position.X, upY * mapChipSize + mapChipSize));
             }
-
         }
 
         //止める

@@ -78,9 +78,11 @@ namespace Action
             // TODO: Add your update logic here
             player.Move();
             player.Collition(map.MapChipNum, map.ChipSize);
+            player.Scroll();
+            map.ItemChipTach(player.MiddleX,player.MiddleY);
 
 
-
+            //初期化
             if (Keyboard.GetState().IsKeyDown(Keys.I))
             {
                 Init();
