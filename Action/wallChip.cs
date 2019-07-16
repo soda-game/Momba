@@ -10,8 +10,9 @@ using System.Diagnostics;
 
 namespace Action
 {
-    class WallChip:Map
+    class WallChip : Map
     {
-    
+
+
     }
-}
+    }
