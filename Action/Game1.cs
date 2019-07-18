@@ -77,7 +77,7 @@ namespace Action
 
             // TODO: Add your update logic here
             player.Move();
-            player.Collition(map.MapChipNum, map.ChipSize);
+            player.Collition(map.MapChipNum, map.ChipSize,map.WallChipNum);
             player.Scroll();
             map.ItemChipTach(player.MiddleX,player.MiddleY);
 

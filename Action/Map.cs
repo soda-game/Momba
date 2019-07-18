@@ -19,7 +19,7 @@ namespace Action
             {1,1,1,1,1,1,1,1,1,1,1,1,1, 1,1,1,1,1,1,1,1,1,1,1,1,1},
             {1,0,0,0,0,0,0,0,0,0,0,0,1, 1,0,0,0,0,0,0,0,0,0,0,0,1},
             {1,1,0,0,0,0,0,0,0,0,0,0,1, 1,0,0,0,0,0,0,0,0,0,0,1,1},
-            {1,5,5,5,5,5,5,5,5,0,0,0,0, 0,0,0,0,0,0,0,0,0,0,0,0,1},
+            {1,0,2,0,2,0,2,0,2,0,0,0,0, 0,0,0,0,0,0,0,0,0,0,0,0,1},
             {1,0,0,0,0,0,0,0,0,0,0,0,0, 0,0,0,0,0,0,0,0,0,0,0,0,1},
             {1,0,0,0,0,0,0,0,0,0,0,0,1, 1,0,0,0,0,0,0,0,0,0,0,0,1},
             {1,0,0,0,0,0,0,0,0,0,0,0,1, 1,0,0,0,0,0,0,0,0,0,0,0,1},
@@ -36,6 +36,13 @@ namespace Action
         const int CHIP_SIZE = 64;
         public int ChipSize => CHIP_SIZE;
 
+        //チップ
+        const int EMPTY_NUM = 0;
+        const int WALL_NUM = 1;
+        const int ENEMY_NUM = 2;
+
+        public int WallChipNum => WALL_NUM;
+
         public Map()
         {
             mapChipNum = mapChipNumBase;
@@ -47,24 +54,23 @@ namespace Action
         }
 
         //アイテムに触ったら空白に
-        public void ItemChipTach(int middleX ,int middleY)
+        public void ItemChipTach(int middleX, int middleY)
         {
-            if (mapChipNum[middleY, middleX] == 5)
+            if (mapChipNum[middleY, middleX] == ENEMY_NUM)
             {
-                mapChipNum[middleY, middleX] = 0;
+                mapChipNum[middleY, middleX] = EMPTY_NUM;
             }
         }
 
-        public  void Draw(SpriteBatch spriteBatch,Vector2 scroll)
+        public void Draw(SpriteBatch spriteBatch, Vector2 scroll)
         {
-            
             for (int i = 0; i < HEIGHT; i++)
             {
                 for (int j = 0; j < WIDTH; j++)
                 {
-                    spriteBatch.Draw(mapChip, new Rectangle((j * CHIP_SIZE)-(int)scroll.X, i * CHIP_SIZE, CHIP_SIZE, CHIP_SIZE), new Rectangle(CHIP_SIZE * mapChipNum[i, j], 0, CHIP_SIZE, CHIP_SIZE), Color.White);
+                    spriteBatch.Draw(mapChip, new Rectangle((j * CHIP_SIZE) - (int)scroll.X, i * CHIP_SIZE, CHIP_SIZE, CHIP_SIZE), new Rectangle(CHIP_SIZE * mapChipNum[i, j], 0, CHIP_SIZE, CHIP_SIZE), Color.White);
                 }
-
             }
+        }
     }
-}}
+}
