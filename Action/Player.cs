@@ -145,15 +145,15 @@ namespace Action
             nowMove = false;
         }
 
-        //プレイヤーが当たった画像にめり込まないように補正する
+        //プレイヤーが当たった画像にめり込まないようする
        void FixPosiiton(Vector2 fixPos)
         {
             position = fixPos;
         }
 
-        public void Draw(SpriteBatch spriteBatch)
+        public void Draw(SpriteBatch spriteBatch,int alpha)
         {
-            spriteBatch.Draw(texture, new Rectangle((int)position.X - (int)scroll.X, (int)position.Y, WIDTH, HEIGHT), new Rectangle(0, 0, WIDTH, HEIGHT), Color.White);
+            spriteBatch.Draw(texture, new Rectangle((int)position.X - (int)scroll.X, (int)position.Y, WIDTH, HEIGHT), new Rectangle(0, 0, WIDTH, HEIGHT), Color.White*alpha);
 
 
         }

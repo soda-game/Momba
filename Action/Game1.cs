@@ -15,6 +15,18 @@ namespace Action
 
         Map map;
         Player player;
+        Title title;
+
+        enum SceneNum
+        {
+            Title,
+            Game,
+        }
+        SceneNum sceneNum;
+
+        //Drawで分岐処理しないためのアルファ
+        int titleAlpha;
+        int gameAlpha;
 
         public Game1()
         {
@@ -31,16 +43,34 @@ namespace Action
         protected override void Initialize()
         {
             // TODO: Add your initialization logic here
-            Init();
-    
-            base.Initialize();
+            GameInit();
+            TitleInit();
+
+           base.Initialize();
         }
-        void Init()
+
+        void TitleInit()
+        {
+            title = new Title();
+            title.SetTexture(Content);
+
+            sceneNum = SceneNum.Title;
+
+            titleAlpha = 1;
+            gameAlpha = 0;
+        }
+
+        void GameInit()
         {
             map = new Map();
             player = new Player();
             map.SetTexture(Content);
             player.SetTexture(Content);
+
+            sceneNum = SceneNum.Game;
+
+            gameAlpha = 1;
+            titleAlpha = 0;
         }
 
         /// <summary>
@@ -75,20 +105,25 @@ namespace Action
             if (GamePad.GetState(PlayerIndex.One).Buttons.Back == ButtonState.Pressed || Keyboard.GetState().IsKeyDown(Keys.Escape))
                 Exit();
 
-            // TODO: Add your update logic here
-            player.Move();
-            player.Collition(map.MapChipNum, map.ChipSize,map.WallChipNum);
-            player.Scroll();
-            map.ItemChipTach(player.MiddleX,player.MiddleY);
-
-
-            //初期化
-            if (Keyboard.GetState().IsKeyDown(Keys.I))
+            switch (sceneNum)
             {
-                Init();
-            }
+                case SceneNum.Title:
+                    title.UpAndDown();
+                    if (title.PushEnter())  GameInit(); 
+                    break;
 
+                case SceneNum.Game:
+                    player.Move();
+                    player.Collition(map.MapChipNum, map.ChipSize, map.WallChipNum);
+                    player.Scroll();
+                    map.ItemChipTach(player.MiddleX, player.MiddleY);
+
+                    //初期化
+                    if (Keyboard.GetState().IsKeyDown(Keys.I)) GameInit();
+                    break;
+            }
             base.Update(gameTime);
+
         }
 
         /// <summary>
@@ -99,14 +134,14 @@ namespace Action
         {
             GraphicsDevice.Clear(Color.White);
 
-            // TODO: Add your drawing code here
             spriteBatch.Begin();
 
-            map.Draw(spriteBatch, player.scroll);
-            player.Draw(spriteBatch);
+            title.Draw(spriteBatch,titleAlpha);
+
+            map.Draw(spriteBatch, player.scroll, gameAlpha);
+            player.Draw(spriteBatch, gameAlpha);
 
             spriteBatch.End();
-
             base.Draw(gameTime);
         }
     }
