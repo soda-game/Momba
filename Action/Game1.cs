@@ -16,6 +16,9 @@ namespace Action
         Map map;
         Player player;
         Title title;
+        Stage stage;
+
+
 
         enum SceneNum
         {
@@ -46,12 +49,14 @@ namespace Action
             GameInit();
             TitleInit();
 
-           base.Initialize();
+
+            base.Initialize();
         }
 
         void TitleInit()
         {
             title = new Title();
+
             title.SetTexture(Content);
 
             sceneNum = SceneNum.Title;
@@ -62,10 +67,15 @@ namespace Action
 
         void GameInit()
         {
+            stage = new Stage();
             map = new Map();
             player = new Player();
+
+            //クラスに持たせてると結局ロードしなきゃいけない…うーん
+            stage.SetTexture(Content);
             map.SetTexture(Content);
             player.SetTexture(Content);
+
 
             sceneNum = SceneNum.Game;
 
@@ -113,6 +123,7 @@ namespace Action
                     break;
 
                 case SceneNum.Game:
+                    stage.Slide();
                     player.Move();
                     player.Collition(map.MapChipNum, map.ChipSize, map.WallChipNum);
                     player.Scroll();
@@ -140,6 +151,7 @@ namespace Action
 
             map.Draw(spriteBatch, player.scroll, gameAlpha);
             player.Draw(spriteBatch, gameAlpha);
+            stage.Draw(spriteBatch, gameAlpha);
 
             spriteBatch.End();
             base.Draw(gameTime);

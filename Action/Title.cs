@@ -21,7 +21,6 @@ namespace Action
         Texture2D pushEnter;
         Vector2 enterPosi;
 
-        int test;
 
         public Title()
         {
@@ -41,7 +40,7 @@ namespace Action
         {
             if (titlePosi.Y >= 110) velocity.Y -= SPEED;
             else if (titlePosi.Y <= 55) velocity.Y += SPEED;
-            titlePosi.Y += velocity.Y;
+            titlePosi += velocity;
         }
 
         public bool PushEnter()
@@ -50,20 +49,11 @@ namespace Action
             if (Keyboard.GetState().IsKeyDown(Keys.Enter))
             {
                 pushF=true;
-                
             }
-
             return pushF;
         }
 
-        //public void Test()
-        //{
-        //    test++;
-        //    if (test > 30)
-        //    {
-
-        //    }
-        //}
+       
 
         public void Draw(SpriteBatch spriteBatch,int alpha)
         {

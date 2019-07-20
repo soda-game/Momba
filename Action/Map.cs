@@ -62,6 +62,7 @@ namespace Action
             }
         }
 
+
         public void Draw(SpriteBatch spriteBatch, Vector2 scroll,int alpha)
         {
             for (int i = 0; i < HEIGHT; i++)

@@ -1,5 +1,7 @@
 Source File,Dest File,Processor Type,Content Type,Source File Size,Dest File Size,Build Seconds
+"C:/Git/Action/Action/Content/bar.png","C:/Git/Action/Action/Content/bin/Windows/Content/bar.xnb","TextureProcessor","Texture2DContent",4375,403285,0.196399
 "C:/Git/Action/Action/Content/block.png","C:/Git/Action/Action/Content/bin/Windows/Content/block.xnb","TextureProcessor","Texture2DContent",1785,98389,2.795921
 "C:/Git/Action/Action/Content/Enter.png","C:/Git/Action/Action/Content/bin/Windows/Content/Enter.xnb","TextureProcessor","Texture2DContent",1812,51565,0.1775277
 "C:/Git/Action/Action/Content/player.png","C:/Git/Action/Action/Content/bin/Windows/Content/player.xnb","TextureProcessor","Texture2DContent",1246,65621,0.0279252
+"C:/Git/Action/Action/Content/stage1.png","C:/Git/Action/Action/Content/bin/Windows/Content/stage1.xnb","TextureProcessor","Texture2DContent",1704,57425,0.0365272
 "C:/Git/Action/Action/Content/Title.png","C:/Git/Action/Action/Content/bin/Windows/Content/Title.xnb","TextureProcessor","Texture2DContent",2448,319885,0.0329149
