@@ -37,16 +37,22 @@ namespace Action
         const int CHIP_SIZE = 64;
         public int ChipSize => CHIP_SIZE;
 
-        //チップ
-        const int EMPTY_NUM = 0;
-        const int WALL_NUM = 1;
-        const int ENEMY_NUM = 2;
+        int scaling;
+        int count = 0;
 
-        public int WallChipNum => WALL_NUM;
+        //チップ
+        enum MapNum
+        {
+            EmptyNum,
+            WallNum,
+            EnemyNum,
+        }
+        public int WallChipNum => (int)MapNum.WallNum;
 
         public Map()
         {
             mapChipNum = mapChipNumBase;
+            scaling = 0;
         }
 
         public void SetTexture(ContentManager content)
@@ -54,23 +60,39 @@ namespace Action
             mapChip = content.Load<Texture2D>("block");
         }
 
+        public void ChipScaling()
+        {
+            count++;
+            if (count >= 60) count = 0;
+            else if (count < 30) scaling = 2;
+            else scaling = -5;
+
+        }
+
         //アイテムに触ったら空白に
         public void ItemChipTach(int middleX, int middleY)
         {
-            if (mapChipNum[middleY, middleX] == ENEMY_NUM)
+            if (mapChipNum[middleY, middleX] == (int)MapNum.EnemyNum)
             {
-                mapChipNum[middleY, middleX] = EMPTY_NUM;
+                mapChipNum[middleY, middleX] = (int)MapNum.EmptyNum;
             }
         }
 
 
-        public void Draw(SpriteBatch spriteBatch, Vector2 scroll,int alpha)
+        public void Draw(SpriteBatch spriteBatch, Vector2 scroll, int alpha)
         {
             for (int i = 0; i < HEIGHT; i++)
             {
                 for (int j = 0; j < WIDTH; j++)
                 {
-                    spriteBatch.Draw(mapChip, new Rectangle((j * CHIP_SIZE) - (int)scroll.X, i * CHIP_SIZE, CHIP_SIZE, CHIP_SIZE), new Rectangle(CHIP_SIZE * mapChipNum[i, j], 0, CHIP_SIZE, CHIP_SIZE), Color.White*alpha);
+                    int chipScal = CHIP_SIZE;
+
+                    if (mapChipNum[i, j] == (int)MapNum.EnemyNum)
+                    {
+                        chipScal += scaling;
+                    }
+                    spriteBatch.Draw(mapChip, new Rectangle((j * CHIP_SIZE) - (int)scroll.X, i * CHIP_SIZE, chipScal, chipScal), new Rectangle(CHIP_SIZE * mapChipNum[i, j], 0, CHIP_SIZE, CHIP_SIZE), Color.White * alpha);
+
                 }
             }
         }

@@ -22,7 +22,7 @@ namespace Action
         public Vector2 scroll;
         const int SCROLL_RIGHT = 600;
         const int SCROLL_LEFT = 63;
-        const int HikuChip = 3; //プレイヤーが右から2の位置 左座標なので3  □ P 壁
+        const int fixChip = 3; //プレイヤーが右から2の位置 左座標なので3  □ P 壁
         //テクスチャ
         Texture2D texture;
         const int WIDTH = 64;
@@ -85,7 +85,7 @@ namespace Action
         //スクロール
        public void Scroll(int mapWidth,int chipSize)
         {
-            if (nowMove && position .X<= (mapWidth-HikuChip)*chipSize) //マップの横幅-壁
+            if (nowMove && position .X<= (mapWidth-fixChip)*chipSize) //マップの横幅-壁
             {
                 if (position.X - scroll.X > SCROLL_RIGHT)
                 {
