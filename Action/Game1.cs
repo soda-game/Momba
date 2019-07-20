@@ -126,7 +126,7 @@ namespace Action
                     stage.Slide();
                     player.Move();
                     player.Collition(map.MapChipNum, map.ChipSize, map.WallChipNum);
-                    player.Scroll();
+                    player.Scroll(map.Width,map.ChipSize);
                     map.ItemChipTach(player.MiddleX, player.MiddleY);
 
                     //初期化

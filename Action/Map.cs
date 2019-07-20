@@ -29,6 +29,7 @@ namespace Action
         int[,] mapChipNum; //変える用
         public int[,] MapChipNum => mapChipNum;
         const int WIDTH = 26;
+        public int Width => WIDTH;
         const int HEIGHT = 8;
 
         //テクスチャ
