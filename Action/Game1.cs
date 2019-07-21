@@ -60,6 +60,7 @@ namespace Action
             title = new Title();
             title.SetTexture(Content);
             sceneNum = SceneNum.Title;
+            Window.Title = "ルンバじゃないよモンバだよ！";
 
         }
 
@@ -68,6 +69,7 @@ namespace Action
             tutorial = new Tutorial();
             tutorial.SetTexture(Content);
             sceneNum = SceneNum.Tutorial;
+            Window.Title = "ここに移動回数とホコリの残数が表示されるよ！";
         }
 
         void StageBarStart()
@@ -101,6 +103,7 @@ namespace Action
             sceneNum = SceneNum.Result;
             result = new Result();
             result.SetText(Content);
+            Window.Title = "遊んでくれてありがとう！（面白いこと書こうとしたけど何も思いつかなかったよ！）";
         }
 
         /// <summary>
@@ -142,9 +145,11 @@ namespace Action
                     title.UpAndDown();
                     if (title.PushEnter()) TutorialInit();
                     break;
+
                 case SceneNum.Tutorial:
-                    if (tutorial.PushEnter())  StageBarStart();
+                    if (tutorial.PushEnter()) StageBarStart();
                     break;
+
                 case SceneNum.Start:
                     if (stageUi.BarSlide())
                     {
@@ -152,17 +157,19 @@ namespace Action
                     }
 
                     break;
+
                 case SceneNum.Game:
+                    Window.Title = "移動回数：" + player.NumberOfMoves + "　 残りのホコリ："+map.EnemyConut+"　　　　　　　リトライ：Kキー";
                     player.Move();
                     player.Collition(map.MapChipNum, map.ChipSize, map.WallChipNum);
                     player.Scroll(map.Width, map.ChipSize);
 
                     map.ChipScaling();
-                    map.ItemChipTach(player.MiddleX, player.MiddleY);
+                    map.EnemyTach(player.MiddleX, player.MiddleY);
 
-                    if (map.ItemCount()) StageBarClear();
+                    if (map.EnemyCheck()) StageBarClear();
 
-                    if (Keyboard.GetState().IsKeyDown(Keys.K)) GameInit(); //初期化
+                    if (Keyboard.GetState().IsKeyDown(Keys.K)) StageBarStart();//初期化
                     break;
 
                 case SceneNum.Clear:

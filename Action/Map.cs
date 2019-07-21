@@ -31,6 +31,9 @@ namespace Action
         public int Width => WIDTH;
         const int HEIGHT = 8;
 
+        int enemyCount;
+        public int EnemyConut => enemyCount;
+
         //テクスチャ
         Texture2D mapChip;
         const int CHIP_SIZE = 64;
@@ -53,6 +56,7 @@ namespace Action
             mapChipNum = mapChipNumBase;
             scaling = 0;
             count = 0;
+            enemyCount = 0;
         }
 
         public void SetTexture(ContentManager content)
@@ -71,7 +75,7 @@ namespace Action
         }
 
         //敵に触ったら空白に
-        public void ItemChipTach(int middleX, int middleY)
+        public void EnemyTach(int middleX, int middleY)
         {
             if (mapChipNum[middleY, middleX] == (int)MapNum.EnemyNum)
             {
@@ -81,19 +85,27 @@ namespace Action
         }
 
         //敵が残っているか
-        public bool ItemCount()
+        public bool EnemyCheck()
         {
             //int a = mapChipNum.Count(n => n == 1); //ダメだった
             //if (a <= 0) ;
 
+            int subEnemyCount = 0;
             bool DeadEnmy =true;
+
             for (int i = 0; i < HEIGHT; i++)
             {
                 for (int j = 0; j < WIDTH; j++)
                 {
-                    if (MapChipNum[i, j] == (int)MapNum.EnemyNum) DeadEnmy = false;
+                    if (MapChipNum[i, j] == (int)MapNum.EnemyNum)
+                    {
+                        subEnemyCount++;
+                        DeadEnmy = false;
+                    }
                 }
             }
+
+            enemyCount = subEnemyCount;
             return DeadEnmy;
         }
 

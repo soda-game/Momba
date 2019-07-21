@@ -11,7 +11,7 @@ using System.Diagnostics;
 
 namespace Action
 {
-    class Tutorial  //タイトルの継承にした方が良かったかもしれなくもない
+    class Tutorial  //タイトルの継承にした方が良かったかもしれなくもない //時すでにおすし
     {
         Texture2D tutorial;
         Vector2 tutorialPos;
