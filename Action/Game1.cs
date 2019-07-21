@@ -15,6 +15,21 @@ namespace Action
 
         Map map;
         Player player;
+        Title title;
+        StageUI stageUi;
+        Result result;
+
+        enum SceneNum
+        {
+            Title,
+            Start,
+            Game,
+            Clear,
+            Result,
+        }
+        SceneNum sceneNum;
+
+
 
         public Game1()
         {
@@ -31,17 +46,51 @@ namespace Action
         protected override void Initialize()
         {
             // TODO: Add your initialization logic here
-            Init();
-    
+            GameInit();
+            TitleInit();
+
+
             base.Initialize();
         }
-        void Init()
+
+        void TitleInit()
+        {
+            title = new Title();
+
+            title.SetTexture(Content);
+
+            sceneNum = SceneNum.Title;
+
+        }
+        void StageBarStart()
+        {
+            stageUi = new StageUI();
+            stageUi.SetStartTexture(Content);
+            sceneNum = SceneNum.Start;
+            GameInit(); 
+        }
+
+        void GameInit()
         {
             map = new Map();
             player = new Player();
+
+            //クラスに持たせてると結局ロードしなきゃいけない…うーん
             map.SetTexture(Content);
             player.SetTexture(Content);
+
+            result = new Result();
+            result.SetText(Content);
         }
+
+        void StageBarClear()
+        {
+            stageUi = new StageUI();
+            stageUi.SetClearTexture(Content);
+            sceneNum = SceneNum.Clear;
+        }
+
+       
 
         /// <summary>
         /// LoadContent will be called once per game and is the place to load
@@ -54,6 +103,7 @@ namespace Action
             graphics.PreferredBackBufferWidth = 800;
             graphics.PreferredBackBufferHeight = 600;
             // TODO: use this.Content to load your game content here
+
         }
 
         /// <summary>
@@ -75,20 +125,48 @@ namespace Action
             if (GamePad.GetState(PlayerIndex.One).Buttons.Back == ButtonState.Pressed || Keyboard.GetState().IsKeyDown(Keys.Escape))
                 Exit();
 
-            // TODO: Add your update logic here
-            player.Move();
-            player.Collition(map.MapChipNum, map.ChipSize,map.WallChipNum);
-            player.Scroll();
-            map.ItemChipTach(player.MiddleX,player.MiddleY);
-
-
-            //初期化
-            if (Keyboard.GetState().IsKeyDown(Keys.I))
+            switch (sceneNum)
             {
-                Init();
-            }
+                case SceneNum.Title:
+                    title.UpAndDown();
+                    if (title.PushEnter()) StageBarStart(); 
+                    break;
+                case SceneNum.Start:
+                    if (stageUi.BarSlide())
+                    {
+                        sceneNum = SceneNum.Game;
+                    }
 
+                    break;
+                case SceneNum.Game:
+                    player.Move();
+                    player.Collition(map.MapChipNum, map.ChipSize, map.WallChipNum);
+                    player.Scroll(map.Width, map.ChipSize);
+
+                    map.ChipScaling();
+                    map.ItemChipTach(player.MiddleX, player.MiddleY);
+
+                    if (!map.ItemCount()) StageBarClear(); 
+
+                    if (Keyboard.GetState().IsKeyDown(Keys.I)) GameInit(); //初期化
+                    break;
+
+                case SceneNum.Clear:
+                    
+                    if (stageUi.BarSlide())
+                    {
+                        sceneNum = SceneNum.Result;
+                    }
+                    break;
+
+                case SceneNum.Result:
+
+                    if (Keyboard.GetState().IsKeyDown(Keys.I))TitleInit(); //初期化
+
+                    break;
+            }
             base.Update(gameTime);
+
         }
 
         /// <summary>
@@ -99,14 +177,28 @@ namespace Action
         {
             GraphicsDevice.Clear(Color.White);
 
-            // TODO: Add your drawing code here
             spriteBatch.Begin();
 
-            map.Draw(spriteBatch, player.scroll);
-            player.Draw(spriteBatch);
+            switch (sceneNum)
+            {
+                case SceneNum.Title:
+                    title.Draw(spriteBatch);
+                    break;
 
+                case SceneNum.Start:
+                case SceneNum.Game:
+                case SceneNum.Clear:
+                    map.Draw(spriteBatch, player.scroll);
+                    player.Draw(spriteBatch);
+                    stageUi.Draw(spriteBatch);
+                    break;
+
+
+                case SceneNum.Result:
+                    result.Draw(1, spriteBatch);
+                    break;
+            }
             spriteBatch.End();
-
             base.Draw(gameTime);
         }
     }

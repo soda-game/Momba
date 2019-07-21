@@ -12,7 +12,6 @@ namespace Action
 {
     class Map
     {
-
         //マップ
         int[,] mapChipNumBase =             //数字変えない！！！！
             {
@@ -29,6 +28,7 @@ namespace Action
         int[,] mapChipNum; //変える用
         public int[,] MapChipNum => mapChipNum;
         const int WIDTH = 26;
+        public int Width => WIDTH;
         const int HEIGHT = 8;
 
         //テクスチャ
@@ -36,16 +36,23 @@ namespace Action
         const int CHIP_SIZE = 64;
         public int ChipSize => CHIP_SIZE;
 
-        //チップ
-        const int EMPTY_NUM = 0;
-        const int WALL_NUM = 1;
-        const int ENEMY_NUM = 2;
+        int count;
+        int scaling;
 
-        public int WallChipNum => WALL_NUM;
+        //チップ
+        enum MapNum
+        {
+            EmptyNum,
+            WallNum,
+            EnemyNum,
+        }
+        public int WallChipNum => (int)MapNum.WallNum;
 
         public Map()
         {
             mapChipNum = mapChipNumBase;
+            scaling = 0;
+            count = 0;
         }
 
         public void SetTexture(ContentManager content)
@@ -53,13 +60,41 @@ namespace Action
             mapChip = content.Load<Texture2D>("block");
         }
 
-        //アイテムに触ったら空白に
+        public void ChipScaling()
+        {
+            count++;
+
+            if (count >= 60) count = 0;
+            else if (count < 30) scaling = 2;
+            else scaling = -5;
+
+        }
+
+        //敵に触ったら空白に
         public void ItemChipTach(int middleX, int middleY)
         {
-            if (mapChipNum[middleY, middleX] == ENEMY_NUM)
+            if (mapChipNum[middleY, middleX] == (int)MapNum.EnemyNum)
             {
-                mapChipNum[middleY, middleX] = EMPTY_NUM;
+                mapChipNum[middleY, middleX] = (int)MapNum.EmptyNum;
             }
+
+        }
+
+        //敵が残っているか
+        public bool ItemCount()
+        {
+            //int a = mapChipNum.Count(n => n == 1); //ダメだった
+            //if (a <= 0) ;
+
+            bool NoEnmy = false;
+            for (int i = 0; i < HEIGHT; i++)
+            {
+                for (int j = 0; j < WIDTH; j++)
+                {
+                    if (MapChipNum[i, j] == (int)MapNum.EnemyNum) NoEnmy = true;
+                }
+            }
+            return NoEnmy;
         }
 
         public void Draw(SpriteBatch spriteBatch, Vector2 scroll)
@@ -68,7 +103,14 @@ namespace Action
             {
                 for (int j = 0; j < WIDTH; j++)
                 {
-                    spriteBatch.Draw(mapChip, new Rectangle((j * CHIP_SIZE) - (int)scroll.X, i * CHIP_SIZE, CHIP_SIZE, CHIP_SIZE), new Rectangle(CHIP_SIZE * mapChipNum[i, j], 0, CHIP_SIZE, CHIP_SIZE), Color.White);
+                    int chipScal = CHIP_SIZE;
+                    if (mapChipNum[i, j] == (int)MapNum.EnemyNum)
+                    {
+                        chipScal += scaling;
+                    }
+
+                    spriteBatch.Draw(mapChip, new Rectangle((j * CHIP_SIZE) - (int)scroll.X, i * CHIP_SIZE, chipScal, chipScal), new Rectangle(CHIP_SIZE * mapChipNum[i, j], 0, CHIP_SIZE, CHIP_SIZE), Color.White);
+
                 }
             }
         }

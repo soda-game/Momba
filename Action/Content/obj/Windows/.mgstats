@@ -1,5 +1,9 @@
 Source File,Dest File,Processor Type,Content Type,Source File Size,Dest File Size,Build Seconds
-"C:/Git/Action/Action/Content/block.png","C:/Git/Action/Action/Content/bin/Windows/block.xnb","TextureProcessor","Texture2DContent",1785,98389,1.594735
-"C:/Git/Action/Action/Content/Enter.png","C:/Git/Action/Action/Content/bin/Windows/Enter.xnb","TextureProcessor","Texture2DContent",2473,121985,0.0950107
-"C:/Git/Action/Action/Content/player.png","C:/Git/Action/Action/Content/bin/Windows/player.xnb","TextureProcessor","Texture2DContent",1167,16469,0.2866935
-"C:/Git/Action/Action/Content/Title.png","C:/Git/Action/Action/Content/bin/Windows/Title.xnb","TextureProcessor","Texture2DContent",2448,319885,0.0229358
+"C:/Git/Action/Action/Content/Arial.spritefont","C:/Git/Action/Action/Content/bin/Windows/Arial.xnb","FontDescriptionProcessor","SpriteFontContent",2008,21521,0.6670743
+"C:/Git/Action/Action/Content/block.png","C:/Git/Action/Action/Content/bin/Windows/block.xnb","TextureProcessor","Texture2DContent",1785,98389,0.0448783
+"C:/Git/Action/Action/Content/clear.png","C:/Git/Action/Action/Content/bin/Windows/clear.xnb","TextureProcessor","Texture2DContent",3919,403285,0.0319151
+"C:/Git/Action/Action/Content/Enter.png","C:/Git/Action/Action/Content/bin/Windows/Enter.xnb","TextureProcessor","Texture2DContent",1812,51565,0.0754661
+"C:/Git/Action/Action/Content/player.png","C:/Git/Action/Action/Content/bin/Windows/player.xnb","TextureProcessor","Texture2DContent",1246,65621,0.0608382
+"C:/Git/Action/Action/Content/start.png","C:/Git/Action/Action/Content/bin/Windows/start.xnb","TextureProcessor","Texture2DContent",3905,403285,0.0418847
+"C:/Git/Action/Action/Content/tesuu.png","C:/Git/Action/Action/Content/bin/Windows/tesuu.xnb","TextureProcessor","Texture2DContent",2062,82885,0.0179521
+"C:/Git/Action/Action/Content/Title.png","C:/Git/Action/Action/Content/bin/Windows/Title.xnb","TextureProcessor","Texture2DContent",2448,319885,0.0249332
