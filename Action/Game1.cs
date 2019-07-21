@@ -146,9 +146,9 @@ namespace Action
                     map.ChipScaling();
                     map.ItemChipTach(player.MiddleX, player.MiddleY);
 
-                    if (!map.ItemCount()) StageBarClear(); 
+                    if (map.ItemCount()) StageBarClear(); 
 
-                    if (Keyboard.GetState().IsKeyDown(Keys.I)) GameInit(); //初期化
+                    if (Keyboard.GetState().IsKeyDown(Keys.K)) GameInit(); //初期化
                     break;
 
                 case SceneNum.Clear:
