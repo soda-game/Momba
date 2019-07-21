@@ -1,9 +1,9 @@
 <?xml version="1.0" encoding="utf-8"?>
 <PipelineBuildEvent xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
-  <SourceFile>C:/Git/Action/Action/Content/bar.png</SourceFile>
-  <SourceTime>2019-07-20T21:32:02.0478129+09:00</SourceTime>
-  <DestFile>C:/Git/Action/Action/Content/bin/Windows/bar.xnb</DestFile>
-  <DestTime>2019-07-20T21:38:41.5510452+09:00</DestTime>
+  <SourceFile>C:/Git/Action/Action/Content/clear.png</SourceFile>
+  <SourceTime>2019-07-21T17:21:36.8272181+09:00</SourceTime>
+  <DestFile>C:/Git/Action/Action/Content/bin/Windows/clear.xnb</DestFile>
+  <DestTime>2019-07-21T19:07:15.0238006+09:00</DestTime>
   <Importer>TextureImporter</Importer>
   <ImporterTime>2018-12-09T01:35:54+09:00</ImporterTime>
   <Processor>TextureProcessor</Processor>

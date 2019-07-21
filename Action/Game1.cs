@@ -19,18 +19,17 @@ namespace Action
         StageUI stageUi;
         Result result;
 
-        bool test = false;
-
         enum SceneNum
         {
             Title,
+            Start,
             Game,
+            Clear,
+            Result,
         }
         SceneNum sceneNum;
 
-        //Drawで分岐処理しないためのアルファ
-        int titleAlpha;
-        int gameAlpha;
+
 
         public Game1()
         {
@@ -49,7 +48,7 @@ namespace Action
             // TODO: Add your initialization logic here
             GameInit();
             TitleInit();
-            
+
 
             base.Initialize();
         }
@@ -62,36 +61,36 @@ namespace Action
 
             sceneNum = SceneNum.Title;
 
-            titleAlpha = 1;
-            gameAlpha = 0;
         }
-
-        void StageBarInit()
+        void StageBarStart()
         {
             stageUi = new StageUI();
-            stageUi.SetClearTexture(Content);
-
+            stageUi.SetStartTexture(Content);
+            sceneNum = SceneNum.Start;
+            GameInit(); 
         }
 
         void GameInit()
         {
-            stageUi = new StageUI();
             map = new Map();
             player = new Player();
 
             //クラスに持たせてると結局ロードしなきゃいけない…うーん
-            stageUi.SetStartTexture(Content);
             map.SetTexture(Content);
             player.SetTexture(Content);
 
             result = new Result();
-            result.Load(Content);
-
-            sceneNum = SceneNum.Game;
-
-            gameAlpha = 1;
-            titleAlpha = 0;
+            result.SetText(Content);
         }
+
+        void StageBarClear()
+        {
+            stageUi = new StageUI();
+            stageUi.SetClearTexture(Content);
+            sceneNum = SceneNum.Clear;
+        }
+
+       
 
         /// <summary>
         /// LoadContent will be called once per game and is the place to load
@@ -130,31 +129,40 @@ namespace Action
             {
                 case SceneNum.Title:
                     title.UpAndDown();
-                    if (title.PushEnter())  GameInit(); 
+                    if (title.PushEnter()) StageBarStart(); 
                     break;
+                case SceneNum.Start:
+                    if (stageUi.BarSlide())
+                    {
+                        sceneNum = SceneNum.Game;
+                    }
 
+                    break;
                 case SceneNum.Game:
-                    stageUi.BarSlide();
-
                     player.Move();
                     player.Collition(map.MapChipNum, map.ChipSize, map.WallChipNum);
-                    player.Scroll(map.Width,map.ChipSize);
+                    player.Scroll(map.Width, map.ChipSize);
 
                     map.ChipScaling();
                     map.ItemChipTach(player.MiddleX, player.MiddleY);
-                    if (!test)
-                    {
-                        if (!map.ItemCount())
-                        {
-                            StageBarInit();
-                            test = true;
-                        }
-                    }
 
+                    if (!map.ItemCount()) StageBarClear(); 
+
+                    if (Keyboard.GetState().IsKeyDown(Keys.I)) GameInit(); //初期化
+                    break;
+
+                case SceneNum.Clear:
                     
+                    if (stageUi.BarSlide())
+                    {
+                        sceneNum = SceneNum.Result;
+                    }
+                    break;
 
-                    //初期化
-                    if (Keyboard.GetState().IsKeyDown(Keys.I)) GameInit();
+                case SceneNum.Result:
+
+                    if (Keyboard.GetState().IsKeyDown(Keys.I))TitleInit(); //初期化
+
                     break;
             }
             base.Update(gameTime);
@@ -171,14 +179,25 @@ namespace Action
 
             spriteBatch.Begin();
 
-            title.Draw(spriteBatch,titleAlpha);
+            switch (sceneNum)
+            {
+                case SceneNum.Title:
+                    title.Draw(spriteBatch);
+                    break;
 
-            map.Draw(spriteBatch, player.scroll, gameAlpha);
-            player.Draw(spriteBatch, gameAlpha);
-            stageUi.Draw(spriteBatch, gameAlpha);
+                case SceneNum.Start:
+                case SceneNum.Game:
+                case SceneNum.Clear:
+                    map.Draw(spriteBatch, player.scroll);
+                    player.Draw(spriteBatch);
+                    stageUi.Draw(spriteBatch);
+                    break;
 
-            result.Draw(1,spriteBatch);
 
+                case SceneNum.Result:
+                    result.Draw(1, spriteBatch);
+                    break;
+            }
             spriteBatch.End();
             base.Draw(gameTime);
         }

@@ -26,5 +26,7 @@ C:\Git\Action\Action\bin\Windows\x86\Debug\Content\player.xnb
 C:\Git\Action\Action\bin\Windows\x86\Debug\Content\Enter.xnb
 C:\Git\Action\Action\bin\Windows\x86\Debug\Content\Title.xnb
 C:\Git\Action\Action\bin\Windows\x86\Debug\Content\bar.xnb
-C:\Git\Action\Action\bin\Windows\x86\Debug\Content\stage1.xnb
 C:\Git\Action\Action\bin\Windows\x86\Debug\Content\Arial.xnb
+C:\Git\Action\Action\bin\Windows\x86\Debug\Content\clear.xnb
+C:\Git\Action\Action\bin\Windows\x86\Debug\Content\start.xnb
+C:\Git\Action\Action\bin\Windows\x86\Debug\Content\tesuu.xnb

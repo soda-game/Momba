@@ -97,7 +97,7 @@ namespace Action
             return NoEnmy;
         }
 
-        public void Draw(SpriteBatch spriteBatch, Vector2 scroll, int alpha)
+        public void Draw(SpriteBatch spriteBatch, Vector2 scroll)
         {
             for (int i = 0; i < HEIGHT; i++)
             {
@@ -109,7 +109,7 @@ namespace Action
                         chipScal += scaling;
                     }
 
-                    spriteBatch.Draw(mapChip, new Rectangle((j * CHIP_SIZE) - (int)scroll.X, i * CHIP_SIZE, chipScal, chipScal), new Rectangle(CHIP_SIZE * mapChipNum[i, j], 0, CHIP_SIZE, CHIP_SIZE), Color.White * alpha);
+                    spriteBatch.Draw(mapChip, new Rectangle((j * CHIP_SIZE) - (int)scroll.X, i * CHIP_SIZE, chipScal, chipScal), new Rectangle(CHIP_SIZE * mapChipNum[i, j], 0, CHIP_SIZE, CHIP_SIZE), Color.White);
 
                 }
             }

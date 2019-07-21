@@ -13,18 +13,25 @@ namespace Action
 {
     class Result
     {
+        Texture2D tesuu;
         SpriteFont spriteFont;
         Vector2 position;
         const int s = 30;
-        public void Load(ContentManager content)
+
+        public Result()
         {
-            spriteFont = content.Load<SpriteFont>("Arial");
             position = new Vector2(0, 0);
-            
+        }
+
+        public void SetText(ContentManager content)
+        {
+            tesuu = content.Load<Texture2D>("tesuu");
+            spriteFont = content.Load<SpriteFont>("Arial");
         }
         public void Draw(int numberOfMoves,SpriteBatch spriteBatch)
         {
-            spriteBatch.DrawString(spriteFont, numberOfMoves.ToString(), position, Color.White,MathHelper.ToRadians(0),Vector2.Zero,2,SpriteEffects.None,0);
+            spriteBatch.Draw(tesuu,  position, Color.Black);
+            spriteBatch.DrawString(spriteFont, numberOfMoves.ToString(), new Vector2(position.X+300, position.Y), Color.Black,MathHelper.ToRadians(0),Vector2.Zero,5,SpriteEffects.None,0);
         }
     }
 }

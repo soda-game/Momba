@@ -151,9 +151,9 @@ namespace Action
             position = fixPos;
         }
 
-        public void Draw(SpriteBatch spriteBatch,int alpha)
+        public void Draw(SpriteBatch spriteBatch)
         {
-            spriteBatch.Draw(texture, new Rectangle((int)position.X - (int)scroll.X, (int)position.Y, WIDTH, HEIGHT), new Rectangle(0, 0, WIDTH, HEIGHT), Color.White*alpha);
+            spriteBatch.Draw(texture, new Rectangle((int)position.X - (int)scroll.X, (int)position.Y, WIDTH, HEIGHT), new Rectangle(0, 0, WIDTH, HEIGHT), Color.White);
 
 
         }

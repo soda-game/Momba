@@ -55,10 +55,10 @@ namespace Action
 
        
 
-        public void Draw(SpriteBatch spriteBatch,int alpha)
+        public void Draw(SpriteBatch spriteBatch)
         {
-            spriteBatch.Draw(title, titlePosi, Color.White*alpha);
-            spriteBatch.Draw(pushEnter, enterPosi, Color.White*alpha);
+            spriteBatch.Draw(title, titlePosi, Color.White);
+            spriteBatch.Draw(pushEnter, enterPosi, Color.White);
         }
     }
 }

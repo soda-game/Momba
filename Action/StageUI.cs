@@ -15,11 +15,11 @@ namespace Action
         Texture2D stageBar;
         Vector2 position;
         Vector2 velocity;
-        const int SLOW=2;
-        const int FAST=30;
+        const int SLOW = 2;
+        const int FAST = 30;
 
-        const int CHANGE_FAST_POS=80;
-        const int CHANGE_SLOW_POS=19;
+        const int CHANGE_FAST_POS = 80;
+        const int CHANGE_SLOW_POS = 19;
 
         int count;
         public StageUI()
@@ -30,17 +30,23 @@ namespace Action
 
         public void SetStartTexture(ContentManager content)
         {
-            stageBar = content.Load<Texture2D>("bar");
+            stageBar = content.Load<Texture2D>("start");
         }
         public void SetClearTexture(ContentManager content)
         {
-            
+            stageBar = content.Load<Texture2D>("clear");
         }
 
-        public void BarSlide()
+        public bool BarSlide()
         {
+            bool slideEnd = false;
             count++;
-            if (count > CHANGE_FAST_POS)
+            if (count > 110)
+            {
+                velocity.X = 0;
+                slideEnd = true;
+            }
+            else if (count > CHANGE_FAST_POS)
             {
                 velocity.X = FAST;
             }
@@ -49,13 +55,14 @@ namespace Action
             {
                 velocity.X = SLOW;
             }
-           
+
             position += velocity;
+            return slideEnd;
         }
 
-        public void Draw(SpriteBatch spriteBatch,int alpha)
+        public void Draw(SpriteBatch spriteBatch)
         {
-            spriteBatch.Draw(stageBar,position, Color.White*alpha);
+            spriteBatch.Draw(stageBar, position, Color.White);
         }
     }
 }
