@@ -16,9 +16,10 @@ namespace Action
         Map map;
         Player player;
         Title title;
-        StageUI stage;
+        StageUI stageUi;
+        Result result;
 
-
+        bool test = false;
 
         enum SceneNum
         {
@@ -48,7 +49,7 @@ namespace Action
             // TODO: Add your initialization logic here
             GameInit();
             TitleInit();
-
+            
 
             base.Initialize();
         }
@@ -65,17 +66,26 @@ namespace Action
             gameAlpha = 0;
         }
 
+        void StageBarInit()
+        {
+            stageUi = new StageUI();
+            stageUi.SetClearTexture(Content);
+
+        }
+
         void GameInit()
         {
-            stage = new StageUI();
+            stageUi = new StageUI();
             map = new Map();
             player = new Player();
 
             //クラスに持たせてると結局ロードしなきゃいけない…うーん
-            stage.SetTexture(Content);
+            stageUi.SetStartTexture(Content);
             map.SetTexture(Content);
             player.SetTexture(Content);
 
+            result = new Result();
+            result.Load(Content);
 
             sceneNum = SceneNum.Game;
 
@@ -123,7 +133,7 @@ namespace Action
                     break;
 
                 case SceneNum.Game:
-                    stage.Slide();
+                    stageUi.BarSlide();
 
                     player.Move();
                     player.Collition(map.MapChipNum, map.ChipSize, map.WallChipNum);
@@ -131,10 +141,16 @@ namespace Action
 
                     map.ChipScaling();
                     map.ItemChipTach(player.MiddleX, player.MiddleY);
-                    if (!map.ItemCount())
+                    if (!test)
                     {
-
+                        if (!map.ItemCount())
+                        {
+                            StageBarInit();
+                            test = true;
+                        }
                     }
+
+                    
 
                     //初期化
                     if (Keyboard.GetState().IsKeyDown(Keys.I)) GameInit();
@@ -158,7 +174,9 @@ namespace Action
 
             map.Draw(spriteBatch, player.scroll, gameAlpha);
             player.Draw(spriteBatch, gameAlpha);
-            stage.Draw(spriteBatch, gameAlpha);
+            stageUi.Draw(spriteBatch, gameAlpha);
+
+            result.Tesuu(1,spriteBatch);
 
             spriteBatch.End();
             base.Draw(gameTime);

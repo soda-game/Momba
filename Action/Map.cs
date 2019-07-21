@@ -38,7 +38,6 @@ namespace Action
 
         int count;
         int scaling;
-        int chipScal;
 
         //チップ
         enum MapNum
@@ -52,9 +51,8 @@ namespace Action
         public Map()
         {
             mapChipNum = mapChipNumBase;
-            count = 0;
             scaling = 0;
-            chipScal = 0;
+            count = 0;
         }
 
         public void SetTexture(ContentManager content)
@@ -89,23 +87,13 @@ namespace Action
             //if (a <= 0) ;
 
             bool NoEnmy = false;
-
             for (int i = 0; i < HEIGHT; i++)
             {
                 for (int j = 0; j < WIDTH; j++)
                 {
-                    if (MapChipNum[i, j] == (int)MapNum.EnemyNum)
-                    {
-                        chipScal += scaling; //ついでに 大きさ処理
-                        NoEnmy = true;
-                    }
-                    else
-                    {
-                        chipScal = CHIP_SIZE;
-                    }
+                    if (MapChipNum[i, j] == (int)MapNum.EnemyNum) NoEnmy = true;
                 }
             }
-
             return NoEnmy;
         }
 
@@ -115,6 +103,12 @@ namespace Action
             {
                 for (int j = 0; j < WIDTH; j++)
                 {
+                    int chipScal = CHIP_SIZE;
+                    if (mapChipNum[i, j] == (int)MapNum.EnemyNum)
+                    {
+                        chipScal += scaling;
+                    }
+
                     spriteBatch.Draw(mapChip, new Rectangle((j * CHIP_SIZE) - (int)scroll.X, i * CHIP_SIZE, chipScal, chipScal), new Rectangle(CHIP_SIZE * mapChipNum[i, j], 0, CHIP_SIZE, CHIP_SIZE), Color.White * alpha);
 
                 }

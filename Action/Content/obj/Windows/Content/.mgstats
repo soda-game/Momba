@@ -1,4 +1,5 @@
 Source File,Dest File,Processor Type,Content Type,Source File Size,Dest File Size,Build Seconds
+"C:/Git/Action/Action/Content/Arial.spritefont","C:/Git/Action/Action/Content/bin/Windows/Content/Arial.xnb","FontDescriptionProcessor","SpriteFontContent",2008,21521,0.4969893
 "C:/Git/Action/Action/Content/bar.png","C:/Git/Action/Action/Content/bin/Windows/Content/bar.xnb","TextureProcessor","Texture2DContent",4375,403285,0.196399
 "C:/Git/Action/Action/Content/block.png","C:/Git/Action/Action/Content/bin/Windows/Content/block.xnb","TextureProcessor","Texture2DContent",1785,98389,2.795921
 "C:/Git/Action/Action/Content/Enter.png","C:/Git/Action/Action/Content/bin/Windows/Content/Enter.xnb","TextureProcessor","Texture2DContent",1812,51565,0.1775277

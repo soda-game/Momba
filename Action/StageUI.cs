@@ -28,12 +28,16 @@ namespace Action
             velocity = new Vector2(FAST, 0);
         }
 
-        public void SetTexture(ContentManager content)
+        public void SetStartTexture(ContentManager content)
+        {
+            stageBar = content.Load<Texture2D>("bar");
+        }
+        public void SetClearTexture(ContentManager content)
         {
             stageBar = content.Load<Texture2D>("bar");
         }
 
-        public void Slide()
+        public void BarSlide()
         {
             count++;
             if (count > CHANGE_FAST_POS)
