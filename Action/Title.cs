@@ -25,7 +25,7 @@ namespace Action
 
         public Title()
         {
-            titlePos = new Vector2(133, 100);
+            titlePos = new Vector2(133, 100);//vec2の数字をconstにする暇はなかった //これってconstしなくてもいいかな…
             velocity = new Vector2(0, SPEED);
             enterPos = new Vector2(200, 340);
         }

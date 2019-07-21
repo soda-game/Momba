@@ -22,7 +22,7 @@ namespace Action
 
         public Tutorial()
         {
-            tutorialPos = new Vector2(0, -70);
+            tutorialPos = new Vector2(0, -70); 
             enterPos = new Vector2(195, 420);
         }
         public void SetTexture(ContentManager content)

@@ -161,6 +161,7 @@ namespace Action
                 case SceneNum.Game:
                     Window.Title = "移動回数：" + player.NumberOfMoves + "　 残りのホコリ："+map.EnemyConut+"　　　　　　　リトライ：Kキー";
                     player.Move();
+                    player.Blink();
                     player.Collition(map.MapChipNum, map.ChipSize, map.WallChipNum);
                     player.Scroll(map.Width, map.ChipSize);
 

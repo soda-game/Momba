@@ -68,9 +68,18 @@ namespace Action
         {
             count++;
 
-            if (count >= 60) count = 0;
-            else if (count < 30) scaling = 2;
-            else scaling = -5;
+            if (count >= 60)
+            {
+                count = 0;
+            }
+            else if (count < 30)
+            {
+                scaling = 2;
+            }
+            else
+            {
+                scaling = -5;
+            }
 
         }
 
@@ -91,7 +100,7 @@ namespace Action
             //if (a <= 0) ;
 
             int subEnemyCount = 0;
-            bool DeadEnmy =true;
+            bool DeadEnmy = true;
 
             for (int i = 0; i < HEIGHT; i++)
             {
@@ -115,6 +124,7 @@ namespace Action
             {
                 for (int j = 0; j < WIDTH; j++)
                 {
+                    //なんとか外で処理できないか粘ったけどダメだったやつ
                     int chipScal = CHIP_SIZE;
                     if (mapChipNum[i, j] == (int)MapNum.EnemyNum)
                     {
