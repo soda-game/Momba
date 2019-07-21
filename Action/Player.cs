@@ -105,11 +105,11 @@ namespace Action
             int leftX = ((int)position.X-1) / ChipSize;
             int upY = ((int)position.Y -1)/ ChipSize;
             //プレイヤーの右端・下端を配列番号に
-            int rightX = ((int)position.X + WIDTH-1) / ChipSize;
-            int downY = ((int)position.Y + HEIGHT-1) / ChipSize;
+            int rightX = ((int)position.X - 1 + WIDTH) / ChipSize;
+            int downY = ((int)position.Y - 1 + HEIGHT) / ChipSize;
             //プレイヤーの中心を配列番号に
-            middleX = ((int)position.X + WIDTH/2 -1) / ChipSize;
-             middleY = ((int)position.Y + HEIGHT/2 -1) / ChipSize;
+            middleX = ((int)position.X - 1 + WIDTH/2 ) / ChipSize;
+             middleY = ((int)position.Y - 1 + HEIGHT/2 ) / ChipSize;
 
             //プレイヤーの右が当たったら
             if (mapChipNum[middleY, rightX] == WallChipNum && position.X + WIDTH > rightX * ChipSize)

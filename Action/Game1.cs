@@ -104,6 +104,7 @@ namespace Action
             graphics.PreferredBackBufferWidth = 800;
             graphics.PreferredBackBufferHeight = 600;
             // TODO: use this.Content to load your game content here
+
         }
 
         /// <summary>
@@ -176,7 +177,7 @@ namespace Action
             player.Draw(spriteBatch, gameAlpha);
             stageUi.Draw(spriteBatch, gameAlpha);
 
-            result.Tesuu(1,spriteBatch);
+            result.Draw(1,spriteBatch);
 
             spriteBatch.End();
             base.Draw(gameTime);

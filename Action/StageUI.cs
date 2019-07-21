@@ -34,7 +34,7 @@ namespace Action
         }
         public void SetClearTexture(ContentManager content)
         {
-            stageBar = content.Load<Texture2D>("bar");
+            
         }
 
         public void BarSlide()
