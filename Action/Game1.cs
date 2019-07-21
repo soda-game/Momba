@@ -16,7 +16,7 @@ namespace Action
         Map map;
         Player player;
         Title title;
-        Stage stage;
+        StageUI stage;
 
 
 
@@ -67,7 +67,7 @@ namespace Action
 
         void GameInit()
         {
-            stage = new Stage();
+            stage = new StageUI();
             map = new Map();
             player = new Player();
 
@@ -131,6 +131,10 @@ namespace Action
 
                     map.ChipScaling();
                     map.ItemChipTach(player.MiddleX, player.MiddleY);
+                    if (!map.ItemCount())
+                    {
+
+                    }
 
                     //初期化
                     if (Keyboard.GetState().IsKeyDown(Keys.I)) GameInit();

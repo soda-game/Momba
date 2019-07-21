@@ -12,7 +12,6 @@ namespace Action
 {
     class Map
     {
-
         //マップ
         int[,] mapChipNumBase =             //数字変えない！！！！
             {
@@ -37,8 +36,9 @@ namespace Action
         const int CHIP_SIZE = 64;
         public int ChipSize => CHIP_SIZE;
 
+        int count;
         int scaling;
-        int count = 0;
+        int chipScal;
 
         //チップ
         enum MapNum
@@ -52,7 +52,9 @@ namespace Action
         public Map()
         {
             mapChipNum = mapChipNumBase;
+            count = 0;
             scaling = 0;
+            chipScal = 0;
         }
 
         public void SetTexture(ContentManager content)
@@ -63,21 +65,49 @@ namespace Action
         public void ChipScaling()
         {
             count++;
+
             if (count >= 60) count = 0;
             else if (count < 30) scaling = 2;
             else scaling = -5;
 
         }
 
-        //アイテムに触ったら空白に
+        //敵に触ったら空白に
         public void ItemChipTach(int middleX, int middleY)
         {
             if (mapChipNum[middleY, middleX] == (int)MapNum.EnemyNum)
             {
                 mapChipNum[middleY, middleX] = (int)MapNum.EmptyNum;
             }
+
         }
 
+        //敵が残っているか
+        public bool ItemCount()
+        {
+            //int a = mapChipNum.Count(n => n == 1); //ダメだった
+            //if (a <= 0) ;
+
+            bool NoEnmy = false;
+
+            for (int i = 0; i < HEIGHT; i++)
+            {
+                for (int j = 0; j < WIDTH; j++)
+                {
+                    if (MapChipNum[i, j] == (int)MapNum.EnemyNum)
+                    {
+                        chipScal += scaling; //ついでに 大きさ処理
+                        NoEnmy = true;
+                    }
+                    else
+                    {
+                        chipScal = CHIP_SIZE;
+                    }
+                }
+            }
+
+            return NoEnmy;
+        }
 
         public void Draw(SpriteBatch spriteBatch, Vector2 scroll, int alpha)
         {
@@ -85,12 +115,6 @@ namespace Action
             {
                 for (int j = 0; j < WIDTH; j++)
                 {
-                    int chipScal = CHIP_SIZE;
-
-                    if (mapChipNum[i, j] == (int)MapNum.EnemyNum)
-                    {
-                        chipScal += scaling;
-                    }
                     spriteBatch.Draw(mapChip, new Rectangle((j * CHIP_SIZE) - (int)scroll.X, i * CHIP_SIZE, chipScal, chipScal), new Rectangle(CHIP_SIZE * mapChipNum[i, j], 0, CHIP_SIZE, CHIP_SIZE), Color.White * alpha);
 
                 }

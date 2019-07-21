@@ -10,7 +10,7 @@ using System.Diagnostics;
 
 namespace Action
 {
-    class Stage
+    class StageUI
     {
         Texture2D stageBar;
         Vector2 position;
@@ -22,7 +22,7 @@ namespace Action
         const int CHANGE_SLOW_POS=19;
 
         int count;
-        public Stage()
+        public StageUI()
         {
             position = new Vector2(-700, 180);
             velocity = new Vector2(FAST, 0);
