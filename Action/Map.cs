@@ -86,7 +86,7 @@ namespace Action
             //int a = mapChipNum.Count(n => n == 1); //ダメだった
             //if (a <= 0) ;
 
-            bool DeadEnmy =false;
+            bool DeadEnmy =true;
             for (int i = 0; i < HEIGHT; i++)
             {
                 for (int j = 0; j < WIDTH; j++)

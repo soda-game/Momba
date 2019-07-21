@@ -34,8 +34,10 @@ namespace Action
         int middleY;
         public int MiddleY => middleY;
 
-        //フラグ
+        //全般
         bool nowMove;
+        int numbreOfMoves;
+        public int NumberOfMoves => numbreOfMoves;
 
         public Player()
         {
@@ -45,6 +47,7 @@ namespace Action
             middleX = 0;
             middleY = 0;
             nowMove = false;
+            numbreOfMoves = 0;
         }
 
         public void SetTexture(ContentManager content)
@@ -58,22 +61,22 @@ namespace Action
             {
                 if (Keyboard.GetState().IsKeyDown(Keys.A))
                 {
-                    nowMove = true;
+                    MoveKey();
                     velocity.X = -SPEED;
                 }
                 else if (Keyboard.GetState().IsKeyDown(Keys.D))
                 {
-                    nowMove = true;
+                    MoveKey();
                     velocity.X = +SPEED;
                 }
                 else if (Keyboard.GetState().IsKeyDown(Keys.W))
                 {
-                    nowMove = true;
+                    MoveKey();
                     velocity.Y = -SPEED;
                 }
                 else if (Keyboard.GetState().IsKeyDown(Keys.S))
                 {
-                    nowMove = true;
+                    MoveKey();
                     velocity.Y = +SPEED;
                 }
             }
@@ -81,9 +84,14 @@ namespace Action
             position += velocity;
 
         }
+        void MoveKey()
+        {
+            nowMove = true;
+            numbreOfMoves++;
+        }
 
         //スクロール
-       public void Scroll(int mapWidth,int chipSize)
+        public void Scroll(int mapWidth,int chipSize)
         {
             if (nowMove && position .X<= (mapWidth-fixChip)*chipSize) //マップの横幅-壁
             {

@@ -50,6 +50,7 @@
     <Compile Include="Sprite.cs" />
     <Compile Include="StageUI.cs" />
     <Compile Include="Title.cs" />
+    <Compile Include="Tutorial.cs" />
   </ItemGroup>
   <ItemGroup>
     <Reference Include="MonoGame.Framework">
