@@ -9,11 +9,13 @@
     <File>C:/Git/Action/Action/Content/clear.png</File>
     <File>C:/Git/Action/Action/Content/Enter.png</File>
     <File>C:/Git/Action/Action/Content/player.png</File>
+    <File>C:/Git/Action/Action/Content/result.png</File>
     <File>C:/Git/Action/Action/Content/start.png</File>
-    <File>C:/Git/Action/Action/Content/tesuu.png</File>
     <File>C:/Git/Action/Action/Content/Title.png</File>
+    <File>C:/Git/Action/Action/Content/tutorial.png</File>
   </SourceFiles>
   <DestFiles>
+    <File xsi:nil="true" />
     <File xsi:nil="true" />
     <File xsi:nil="true" />
     <File xsi:nil="true" />

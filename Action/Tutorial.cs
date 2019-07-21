@@ -5,43 +5,30 @@ using System.Text;
 using System.Threading.Tasks;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
-using Microsoft.Xna.Framework.Content;
 using Microsoft.Xna.Framework.Input;
+using Microsoft.Xna.Framework.Content;
 using System.Diagnostics;
 
 namespace Action
 {
-    class Title
+    class Tutorial  //タイトルの継承にした方が良かったかもしれなくもない //時すでにおすし
     {
-        Texture2D title;
-        Vector2 titlePos;
-        Vector2 velocity;
-        const float SPEED = 1.3f;
+        Texture2D tutorial;
+        Vector2 tutorialPos;
 
         Texture2D pushEnter;
         Vector2 enterPos;
-
         bool pushF = false;
 
-        public Title()
+        public Tutorial()
         {
-            titlePos = new Vector2(133, 100);
-            velocity = new Vector2(0, SPEED);
-            enterPos = new Vector2(200, 340);
+            tutorialPos = new Vector2(0, -70);
+            enterPos = new Vector2(195, 420);
         }
-
         public void SetTexture(ContentManager content)
         {
-            title = content.Load<Texture2D>("Title");
+            tutorial = content.Load<Texture2D>("tutorial");
             pushEnter = content.Load<Texture2D>("Enter");
-        }
-
-        //タイトル上下
-        public void UpAndDown()
-        {
-            if (titlePos.Y >= 110) velocity.Y -= SPEED;
-            else if (titlePos.Y <= 55) velocity.Y += SPEED;
-            titlePos += velocity;
         }
 
         public bool PushEnter()
@@ -49,9 +36,9 @@ namespace Action
             bool nextF = false;
             if (Keyboard.GetState().IsKeyDown(Keys.Enter))
             {
-                pushF=true;
+                pushF = true;
             }
-            if (Keyboard.GetState().IsKeyUp(Keys.Enter)&&pushF)
+             if (Keyboard.GetState().IsKeyUp(Keys.Enter) && pushF)
             {
                 nextF = true;
             }
@@ -59,13 +46,12 @@ namespace Action
             return nextF;
         }
 
-       
+      
 
         public void Draw(SpriteBatch spriteBatch)
         {
-            spriteBatch.Draw(title, titlePos, Color.White);
+            spriteBatch.Draw(tutorial, tutorialPos, Color.White);
             spriteBatch.Draw(pushEnter, enterPos, Color.White);
         }
-
     }
 }

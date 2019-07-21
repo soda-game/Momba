@@ -13,15 +13,17 @@ namespace Action
         GraphicsDeviceManager graphics;
         SpriteBatch spriteBatch;
 
+        Title title;
+        Tutorial tutorial;
+        StageUI stageUi;
         Map map;
         Player player;
-        Title title;
-        StageUI stageUi;
         Result result;
 
         enum SceneNum
         {
             Title,
+            Tutorial,
             Start,
             Game,
             Clear,
@@ -56,18 +58,26 @@ namespace Action
         void TitleInit()
         {
             title = new Title();
-
             title.SetTexture(Content);
-
             sceneNum = SceneNum.Title;
+            Window.Title = "ルンバじゃないよモンバだよ！";
 
         }
+
+        void TutorialInit()
+        {
+            tutorial = new Tutorial();
+            tutorial.SetTexture(Content);
+            sceneNum = SceneNum.Tutorial;
+            Window.Title = "ここに移動回数とホコリの残数が表示されるよ！";
+        }
+
         void StageBarStart()
         {
             stageUi = new StageUI();
             stageUi.SetStartTexture(Content);
             sceneNum = SceneNum.Start;
-            GameInit(); 
+            GameInit();
         }
 
         void GameInit()
@@ -79,8 +89,6 @@ namespace Action
             map.SetTexture(Content);
             player.SetTexture(Content);
 
-            result = new Result();
-            result.SetText(Content);
         }
 
         void StageBarClear()
@@ -90,7 +98,13 @@ namespace Action
             sceneNum = SceneNum.Clear;
         }
 
-       
+        void ResultInit()
+        {
+            sceneNum = SceneNum.Result;
+            result = new Result();
+            result.SetText(Content);
+            Window.Title = "遊んでくれてありがとう！（面白いこと書こうとしたけど何も思いつかなかったよ！）";
+        }
 
         /// <summary>
         /// LoadContent will be called once per game and is the place to load
@@ -129,8 +143,13 @@ namespace Action
             {
                 case SceneNum.Title:
                     title.UpAndDown();
-                    if (title.PushEnter()) StageBarStart(); 
+                    if (title.PushEnter()) TutorialInit();
                     break;
+
+                case SceneNum.Tutorial:
+                    if (tutorial.PushEnter()) StageBarStart();
+                    break;
+
                 case SceneNum.Start:
                     if (stageUi.BarSlide())
                     {
@@ -138,30 +157,34 @@ namespace Action
                     }
 
                     break;
+
                 case SceneNum.Game:
+                    Window.Title = "移動回数：" + player.NumberOfMoves + "　 残りのホコリ："+map.EnemyConut+"　　　　　　　リトライ：Kキー";
                     player.Move();
                     player.Collition(map.MapChipNum, map.ChipSize, map.WallChipNum);
                     player.Scroll(map.Width, map.ChipSize);
 
                     map.ChipScaling();
-                    map.ItemChipTach(player.MiddleX, player.MiddleY);
+                    map.EnemyTach(player.MiddleX, player.MiddleY);
 
-                    if (!map.ItemCount()) StageBarClear(); 
+                    if (map.EnemyCheck()) StageBarClear();
 
-                    if (Keyboard.GetState().IsKeyDown(Keys.I)) GameInit(); //初期化
+                    if (Keyboard.GetState().IsKeyDown(Keys.K)) StageBarStart();//初期化
                     break;
 
                 case SceneNum.Clear:
-                    
+
                     if (stageUi.BarSlide())
                     {
-                        sceneNum = SceneNum.Result;
+                        ResultInit();
                     }
                     break;
 
                 case SceneNum.Result:
 
-                    if (Keyboard.GetState().IsKeyDown(Keys.I))TitleInit(); //初期化
+                    if (Keyboard.GetState().IsKeyDown(Keys.H)) TitleInit();
+                    if (Keyboard.GetState().IsKeyDown(Keys.K)) StageBarStart();
+
 
                     break;
             }
@@ -184,7 +207,9 @@ namespace Action
                 case SceneNum.Title:
                     title.Draw(spriteBatch);
                     break;
-
+                case SceneNum.Tutorial:
+                    tutorial.Draw(spriteBatch);
+                    break;
                 case SceneNum.Start:
                 case SceneNum.Game:
                 case SceneNum.Clear:
@@ -193,9 +218,8 @@ namespace Action
                     stageUi.Draw(spriteBatch);
                     break;
 
-
                 case SceneNum.Result:
-                    result.Draw(1, spriteBatch);
+                    result.Draw(player.NumberOfMoves, spriteBatch);
                     break;
             }
             spriteBatch.End();

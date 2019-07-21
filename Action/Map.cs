@@ -16,12 +16,12 @@ namespace Action
         int[,] mapChipNumBase =             //数字変えない！！！！
             {
             {1,1,1,1,1,1,1,1,1,1,1,1,1, 1,1,1,1,1,1,1,1,1,1,1,1,1},
-            {1,0,0,0,0,0,0,0,0,0,0,0,1, 1,0,0,0,0,0,0,0,0,0,0,0,1},
-            {1,1,0,0,0,0,0,0,0,0,0,0,1, 1,0,0,0,0,0,0,0,0,0,0,1,1},
-            {1,0,2,0,2,0,2,0,2,0,0,0,0, 0,0,0,0,0,0,0,0,0,0,0,0,1},
-            {1,0,0,0,0,0,0,0,0,0,0,0,0, 0,0,0,0,0,0,0,0,0,0,0,0,1},
-            {1,0,0,0,0,0,0,0,0,0,0,0,1, 1,0,0,0,0,0,0,0,0,0,0,0,1},
-            {1,0,0,0,0,0,0,0,0,0,0,0,1, 1,0,0,0,0,0,0,0,0,0,0,0,1},
+            {1,0,0,0,0,1,0,0,0,0,0,2,1, 1,1,0,0,0,2,0,0,0,1,2,0,1},
+            {1,1,0,0,0,0,0,0,0,0,0,0,1, 1,0,0,0,0,0,0,1,0,0,0,0,1},
+            {1,0,0,0,0,0,0,0,0,2,0,0,0, 0,0,0,0,0,0,0,0,0,0,0,0,1},
+            {1,2,0,0,0,0,1,0,0,0,0,0,0, 0,0,0,0,0,0,0,0,0,0,0,0,1},
+            {1,0,0,0,0,0,0,2,0,0,0,0,1, 1,1,0,1,0,0,0,0,2,0,1,0,1},
+            {1,0,0,1,0,2,0,0,0,0,0,0,1, 1,0,0,2,1,0,0,0,0,0,0,0,1},
             {1,1,1,1,1,1,1,1,1,1,1,1,1, 1,1,1,1,1,1,1,1,1,1,1,1,1}
             };
 
@@ -30,6 +30,9 @@ namespace Action
         const int WIDTH = 26;
         public int Width => WIDTH;
         const int HEIGHT = 8;
+
+        int enemyCount;
+        public int EnemyConut => enemyCount;
 
         //テクスチャ
         Texture2D mapChip;
@@ -53,6 +56,7 @@ namespace Action
             mapChipNum = mapChipNumBase;
             scaling = 0;
             count = 0;
+            enemyCount = 0;
         }
 
         public void SetTexture(ContentManager content)
@@ -71,7 +75,7 @@ namespace Action
         }
 
         //敵に触ったら空白に
-        public void ItemChipTach(int middleX, int middleY)
+        public void EnemyTach(int middleX, int middleY)
         {
             if (mapChipNum[middleY, middleX] == (int)MapNum.EnemyNum)
             {
@@ -81,20 +85,28 @@ namespace Action
         }
 
         //敵が残っているか
-        public bool ItemCount()
+        public bool EnemyCheck()
         {
             //int a = mapChipNum.Count(n => n == 1); //ダメだった
             //if (a <= 0) ;
 
-            bool NoEnmy = false;
+            int subEnemyCount = 0;
+            bool DeadEnmy =true;
+
             for (int i = 0; i < HEIGHT; i++)
             {
                 for (int j = 0; j < WIDTH; j++)
                 {
-                    if (MapChipNum[i, j] == (int)MapNum.EnemyNum) NoEnmy = true;
+                    if (MapChipNum[i, j] == (int)MapNum.EnemyNum)
+                    {
+                        subEnemyCount++;
+                        DeadEnmy = false;
+                    }
                 }
             }
-            return NoEnmy;
+
+            enemyCount = subEnemyCount;
+            return DeadEnmy;
         }
 
         public void Draw(SpriteBatch spriteBatch, Vector2 scroll)
