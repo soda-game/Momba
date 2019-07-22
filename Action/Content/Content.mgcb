@@ -62,6 +62,12 @@
 /processorParam:TextureFormat=Color
 /build:Enter.png
 
+#begin hokoriGetSE.wav
+/importer:WavImporter
+/processor:SoundEffectProcessor
+/processorParam:Quality=Best
+/build:hokoriGetSE.wav
+
 #begin player.png
 /importer:TextureImporter
 /processor:TextureProcessor

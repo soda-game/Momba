@@ -3,7 +3,7 @@
   <SourceFile>C:/Git/Action/Action/Content/BGM.mp3</SourceFile>
   <SourceTime>2019-07-22T09:49:23.899665+09:00</SourceTime>
   <DestFile>C:/Git/Action/Action/Content/bin/Windows/BGM.xnb</DestFile>
-  <DestTime>2019-07-22T09:51:00.9921627+09:00</DestTime>
+  <DestTime>2019-07-22T11:04:16.4781897+09:00</DestTime>
   <Importer>Mp3Importer</Importer>
   <ImporterTime>2018-12-09T01:35:54+09:00</ImporterTime>
   <Processor>SongProcessor</Processor>

@@ -52,6 +52,7 @@ namespace Action
             GameInit();
             TitleInit();
 
+            
 
             base.Initialize();
         }
@@ -62,7 +63,7 @@ namespace Action
             title.Load(Content);
             sceneNum = SceneNum.Title;
             Window.Title = "ルンバじゃないよモンバだよ！■■";
-            MediaPlayer.Play(bgm);
+            
         }
 
         void TutorialInit()
@@ -88,7 +89,7 @@ namespace Action
             player = new Player();
 
             //クラスに持たせてると結局ロードしなきゃいけない…うーん
-            map.SetTexture(Content);
+            map.Load(Content);
             player.SetTexture(Content);
 
         }
@@ -121,7 +122,6 @@ namespace Action
             graphics.PreferredBackBufferHeight = 600;
             // TODO: use this.Content to load your game content here
             bgm = Content.Load<Song>("BGM");
-
         }
 
         /// <summary>
@@ -143,6 +143,13 @@ namespace Action
             if (GamePad.GetState(PlayerIndex.One).Buttons.Back == ButtonState.Pressed || Keyboard.GetState().IsKeyDown(Keys.Escape))
                 Exit();
 
+            //BGM
+            if (MediaPlayer.State != MediaState.Playing) //state 状態
+            {
+                MediaPlayer.Play(bgm);
+            }
+
+            //操作制御
             switch (sceneNum)
             {
                 case SceneNum.Title:

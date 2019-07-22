@@ -34,3 +34,4 @@ C:\Git\Action\Action\bin\Windows\x86\Debug\Content\tutorial.xnb
 C:\Git\Action\Action\bin\Windows\x86\Debug\Content\BGM.wma
 C:\Git\Action\Action\bin\Windows\x86\Debug\Content\BGM.xnb
 C:\Git\Action\Action\bin\Windows\x86\Debug\Content\pushSE.xnb
+C:\Git\Action\Action\bin\Windows\x86\Debug\Content\hokoriGetSE.xnb
