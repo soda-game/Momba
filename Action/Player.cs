@@ -38,10 +38,11 @@ namespace Action
         int blinkCount;
         int blinkF;
 
-        //全般
+        //フラグ
         bool nowMove;
         int numbreOfMoves;
         public int NumberOfMoves => numbreOfMoves;
+        bool keyPushF;
 
         public Player()
         {
@@ -55,11 +56,13 @@ namespace Action
 
             nowMove = false;
             numbreOfMoves = 0;
+            keyPushF = false;
+
             blinkCount = 0;
             blinkF = 0;
         }
 
-        public void SetTexture(ContentManager content)
+        public void Load(ContentManager content)
         {
             texture = content.Load<Texture2D>("player");
         }
@@ -79,37 +82,43 @@ namespace Action
 
         public void Move()
         {
-            if (!nowMove)
-            {
-                if (Keyboard.GetState().IsKeyDown(Keys.A))
-                {
-                    MoveKey();
-                    velocity.X = -SPEED;
-                }
-                else if (Keyboard.GetState().IsKeyDown(Keys.D))
-                {
-                    MoveKey();
-                    velocity.X = +SPEED;
-                }
-                else if (Keyboard.GetState().IsKeyDown(Keys.W))
-                {
-                    MoveKey();
-                    velocity.Y = -SPEED;
-                }
-                else if (Keyboard.GetState().IsKeyDown(Keys.S))
-                {
-                    MoveKey();
-                    velocity.Y = +SPEED;
-                }
-            }
 
+            if (Keyboard.GetState().IsKeyDown(Keys.A))
+            {
+                velocity.X = -SPEED;
+            }
+            else if (Keyboard.GetState().IsKeyDown(Keys.D))
+            {
+                if (!nowMove)
+                {
+                    velocity.X = +SPEED;
+                    keyPushF = true;
+                }
+                MoveCount();
+
+            }
+            else if (Keyboard.GetState().IsKeyDown(Keys.W))
+            {
+                velocity.Y = -SPEED;
+            }
+            else if (Keyboard.GetState().IsKeyDown(Keys.S))
+            {
+                velocity.Y = +SPEED;
+            }
             position += velocity;
 
+
         }
-        void MoveKey()
+
+        //手数カウント制御
+        void MoveCount()
         {
+            if (numbreOfMoves < 100 && nowMove && keyPushF) //次のフレームで動いてる→壁ではない & 前フレームでキーが押されている
+            {
+                keyPushF = false;
+                numbreOfMoves++;
+            }
             nowMove = true;
-            numbreOfMoves++;
         }
 
         //スクロール
@@ -145,7 +154,6 @@ namespace Action
             if (mapChipNum[middleY, rightX] == WallChipNum && position.X + WIDTH > rightX * ChipSize)
             {
                 StopMove();
-                //velocity = new Vector2(0, SPEED);
                 FixPosiiton(new Vector2(rightX * ChipSize - WIDTH, position.Y)); //補正
             }
             //プレイヤーの左が当たったら
