@@ -6,6 +6,7 @@ using System.Threading.Tasks;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using Microsoft.Xna.Framework.Content;
+using Microsoft.Xna.Framework.Audio;
 using Microsoft.Xna.Framework.Input;
 using System.Diagnostics;
 
@@ -23,6 +24,8 @@ namespace Action
 
         bool pushF = false;
 
+        SoundEffect pushSE;
+
         public Title()
         {
             titlePos = new Vector2(133, 100);//vec2の数字をconstにする暇はなかった //これってconstしなくてもいいかな…
@@ -30,11 +33,14 @@ namespace Action
             enterPos = new Vector2(200, 340);
         }
 
-        public void SetTexture(ContentManager content)
+        public void Load(ContentManager content)
         {
             title = content.Load<Texture2D>("Title");
             pushEnter = content.Load<Texture2D>("Enter");
+            pushSE = content.Load<SoundEffect>("pushSE");
+
         }
+
 
         //タイトル上下
         public void UpAndDown()
@@ -49,9 +55,10 @@ namespace Action
             bool nextF = false;
             if (Keyboard.GetState().IsKeyDown(Keys.Enter))
             {
-                pushF=true;
+                pushF = true;
+                pushSE.Play();
             }
-            if (Keyboard.GetState().IsKeyUp(Keys.Enter)&&pushF)
+            if (Keyboard.GetState().IsKeyUp(Keys.Enter) && pushF)
             {
                 nextF = true;
             }
@@ -59,7 +66,7 @@ namespace Action
             return nextF;
         }
 
-       
+
 
         public void Draw(SpriteBatch spriteBatch)
         {

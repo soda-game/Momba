@@ -12,7 +12,10 @@ namespace Action
 {
     class StageUI
     {
-        Texture2D stageBar;
+        Texture2D startBar;
+        Texture2D clearBar;
+
+        Texture2D bar;
         Vector2 position;
         Vector2 velocity;
         const int SLOW = 2;
@@ -27,14 +30,20 @@ namespace Action
             position = new Vector2(-700, 180);
             velocity = new Vector2(FAST, 0);
         }
-
-        public void SetStartTexture(ContentManager content)
+        
+        public void Load(ContentManager content)
         {
-            stageBar = content.Load<Texture2D>("start");
+            startBar = content.Load<Texture2D>("start");
+            clearBar = content.Load<Texture2D>("clear");
         }
-        public void SetClearTexture(ContentManager content)
+
+        public void SetStartTexture()
         {
-            stageBar = content.Load<Texture2D>("clear");
+            bar = startBar;
+        }
+        public void SetClearTexture()
+        {
+            bar = clearBar;
         }
 
         public bool BarSlide()
@@ -62,7 +71,7 @@ namespace Action
 
         public void Draw(SpriteBatch spriteBatch)
         {
-            spriteBatch.Draw(stageBar, position, Color.White);
+            spriteBatch.Draw(bar, position, Color.White);
         }
     }
 }

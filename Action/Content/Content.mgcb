@@ -20,6 +20,12 @@
 /processorParam:TextureFormat=Compressed
 /build:Arial.spritefont
 
+#begin BGM.mp3
+/importer:Mp3Importer
+/processor:SongProcessor
+/processorParam:Quality=Best
+/build:BGM.mp3
+
 #begin block.png
 /importer:TextureImporter
 /processor:TextureProcessor
@@ -67,6 +73,12 @@
 /processorParam:MakeSquare=False
 /processorParam:TextureFormat=Color
 /build:player.png
+
+#begin pushSE.wav
+/importer:WavImporter
+/processor:SoundEffectProcessor
+/processorParam:Quality=Best
+/build:pushSE.wav
 
 #begin result.png
 /importer:TextureImporter

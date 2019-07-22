@@ -1,6 +1,7 @@
 ﻿using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using Microsoft.Xna.Framework.Input;
+using Microsoft.Xna.Framework.Media;
 using System.Diagnostics;
 
 namespace Action
@@ -31,7 +32,7 @@ namespace Action
         }
         SceneNum sceneNum;
 
-
+        Song bgm;
 
         public Game1()
         {
@@ -58,16 +59,16 @@ namespace Action
         void TitleInit()
         {
             title = new Title();
-            title.SetTexture(Content);
+            title.Load(Content);
             sceneNum = SceneNum.Title;
-            Window.Title = "ルンバじゃないよモンバだよ！";
-
+            Window.Title = "ルンバじゃないよモンバだよ！■■";
+            MediaPlayer.Play(bgm);
         }
 
         void TutorialInit()
         {
             tutorial = new Tutorial();
-            tutorial.SetTexture(Content);
+            tutorial.Load(Content);
             sceneNum = SceneNum.Tutorial;
             Window.Title = "ここに移動回数とホコリの残数が表示されるよ！";
         }
@@ -75,7 +76,8 @@ namespace Action
         void StageBarStart()
         {
             stageUi = new StageUI();
-            stageUi.SetStartTexture(Content);
+            stageUi.Load(Content);
+            stageUi.SetStartTexture();
             sceneNum = SceneNum.Start;
             GameInit();
         }
@@ -94,7 +96,8 @@ namespace Action
         void StageBarClear()
         {
             stageUi = new StageUI();
-            stageUi.SetClearTexture(Content);
+            stageUi.Load(Content);
+            stageUi.SetClearTexture();
             sceneNum = SceneNum.Clear;
         }
 
@@ -117,6 +120,7 @@ namespace Action
             graphics.PreferredBackBufferWidth = 800;
             graphics.PreferredBackBufferHeight = 600;
             // TODO: use this.Content to load your game content here
+            bgm = Content.Load<Song>("BGM");
 
         }
 
@@ -143,7 +147,10 @@ namespace Action
             {
                 case SceneNum.Title:
                     title.UpAndDown();
-                    if (title.PushEnter()) TutorialInit();
+                    if (title.PushEnter())
+                    {
+                        TutorialInit();
+                    }
                     break;
 
                 case SceneNum.Tutorial:
@@ -174,7 +181,6 @@ namespace Action
                     break;
 
                 case SceneNum.Clear:
-
                     if (stageUi.BarSlide())
                     {
                         ResultInit();

@@ -83,22 +83,22 @@ namespace Action
             {
                 if (Keyboard.GetState().IsKeyDown(Keys.A))
                 {
-                    MoveKey();
+                    nowMove = true;
                     velocity.X = -SPEED;
                 }
                 else if (Keyboard.GetState().IsKeyDown(Keys.D))
                 {
-                    MoveKey();
+                    nowMove = true;
                     velocity.X = +SPEED;
                 }
                 else if (Keyboard.GetState().IsKeyDown(Keys.W))
                 {
-                    MoveKey();
+                    nowMove = true;
                     velocity.Y = -SPEED;
                 }
                 else if (Keyboard.GetState().IsKeyDown(Keys.S))
                 {
-                    MoveKey();
+                    nowMove = true;
                     velocity.Y = +SPEED;
                 }
             }
@@ -106,12 +106,7 @@ namespace Action
             position += velocity;
 
         }
-        void MoveKey()
-        {
-            nowMove = true;
-            numbreOfMoves++;
-        }
-
+       
         //スクロール
         public void Scroll(int mapWidth, int chipSize)
         {
@@ -171,6 +166,7 @@ namespace Action
         //止める
         void StopMove()
         {
+            numbreOfMoves++;
             velocity = Vector2.Zero;
             nowMove = false;
         }
