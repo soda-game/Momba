@@ -7,6 +7,7 @@ using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using Microsoft.Xna.Framework.Content;
 using System.Diagnostics;
+using Microsoft.Xna.Framework.Audio;
 
 namespace Action
 {
@@ -51,6 +52,9 @@ namespace Action
         }
         public int WallChipNum => (int)MapNum.WallNum;
 
+        //SE
+        SoundEffect hokoriGetSE;
+
         public Map()
         {
             mapChipNum = mapChipNumBase;
@@ -59,18 +63,28 @@ namespace Action
             enemyCount = 0;
         }
 
-        public void SetTexture(ContentManager content)
+        public void Load(ContentManager content)
         {
             mapChip = content.Load<Texture2D>("block");
+            hokoriGetSE = content.Load<SoundEffect>("hokoriGetSE");
         }
 
         public void ChipScaling()
         {
             count++;
 
-            if (count >= 60) count = 0;
-            else if (count < 30) scaling = 2;
-            else scaling = -5;
+            if (count >= 60)
+            {
+                count = 0;
+            }
+            else if (count < 30)
+            {
+                scaling = 2;
+            }
+            else
+            {
+                scaling = -5;
+            }
 
         }
 
@@ -79,6 +93,7 @@ namespace Action
         {
             if (mapChipNum[middleY, middleX] == (int)MapNum.EnemyNum)
             {
+                hokoriGetSE.Play();
                 mapChipNum[middleY, middleX] = (int)MapNum.EmptyNum;
             }
 
@@ -91,7 +106,7 @@ namespace Action
             //if (a <= 0) ;
 
             int subEnemyCount = 0;
-            bool DeadEnmy =true;
+            bool DeadEnmy = true;
 
             for (int i = 0; i < HEIGHT; i++)
             {
@@ -115,6 +130,7 @@ namespace Action
             {
                 for (int j = 0; j < WIDTH; j++)
                 {
+                    //なんとか外で処理できないか粘ったけどダメだったやつ
                     int chipScal = CHIP_SIZE;
                     if (mapChipNum[i, j] == (int)MapNum.EnemyNum)
                     {

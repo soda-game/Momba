@@ -7,6 +7,7 @@ using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using Microsoft.Xna.Framework.Input;
 using Microsoft.Xna.Framework.Content;
+using Microsoft.Xna.Framework.Audio;
 using System.Diagnostics;
 
 namespace Action
@@ -20,15 +21,18 @@ namespace Action
         Vector2 enterPos;
         bool pushF = false;
 
+        SoundEffect pushSE;
+
         public Tutorial()
         {
             tutorialPos = new Vector2(0, -70);
             enterPos = new Vector2(195, 420);
         }
-        public void SetTexture(ContentManager content)
+        public void Load(ContentManager content)
         {
             tutorial = content.Load<Texture2D>("tutorial");
             pushEnter = content.Load<Texture2D>("Enter");
+            pushSE = content.Load<SoundEffect>("pushSE");
         }
 
         public bool PushEnter()
@@ -37,8 +41,9 @@ namespace Action
             if (Keyboard.GetState().IsKeyDown(Keys.Enter))
             {
                 pushF = true;
+                pushSE.Play();
             }
-             if (Keyboard.GetState().IsKeyUp(Keys.Enter) && pushF)
+            if (Keyboard.GetState().IsKeyUp(Keys.Enter) && pushF)
             {
                 nextF = true;
             }
@@ -46,7 +51,7 @@ namespace Action
             return nextF;
         }
 
-      
+
 
         public void Draw(SpriteBatch spriteBatch)
         {

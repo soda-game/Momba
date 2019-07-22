@@ -1,6 +1,7 @@
 ﻿using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using Microsoft.Xna.Framework.Input;
+using Microsoft.Xna.Framework.Media;
 using System.Diagnostics;
 
 namespace Action
@@ -31,7 +32,7 @@ namespace Action
         }
         SceneNum sceneNum;
 
-
+        Song bgm;
 
         public Game1()
         {
@@ -51,6 +52,7 @@ namespace Action
             GameInit();
             TitleInit();
 
+            
 
             base.Initialize();
         }
@@ -58,16 +60,16 @@ namespace Action
         void TitleInit()
         {
             title = new Title();
-            title.SetTexture(Content);
+            title.Load(Content);
             sceneNum = SceneNum.Title;
-            Window.Title = "ルンバじゃないよモンバだよ！";
-
+            Window.Title = "ルンバじゃないよモンバだよ！■■";
+            
         }
 
         void TutorialInit()
         {
             tutorial = new Tutorial();
-            tutorial.SetTexture(Content);
+            tutorial.Load(Content);
             sceneNum = SceneNum.Tutorial;
             Window.Title = "ここに移動回数とホコリの残数が表示されるよ！";
         }
@@ -75,7 +77,8 @@ namespace Action
         void StageBarStart()
         {
             stageUi = new StageUI();
-            stageUi.SetStartTexture(Content);
+            stageUi.Load(Content);
+            stageUi.SetStartTexture();
             sceneNum = SceneNum.Start;
             GameInit();
         }
@@ -86,7 +89,7 @@ namespace Action
             player = new Player();
 
             //クラスに持たせてると結局ロードしなきゃいけない…うーん
-            map.SetTexture(Content);
+            map.Load(Content);
             player.SetTexture(Content);
 
         }
@@ -94,7 +97,8 @@ namespace Action
         void StageBarClear()
         {
             stageUi = new StageUI();
-            stageUi.SetClearTexture(Content);
+            stageUi.Load(Content);
+            stageUi.SetClearTexture();
             sceneNum = SceneNum.Clear;
         }
 
@@ -117,7 +121,7 @@ namespace Action
             graphics.PreferredBackBufferWidth = 800;
             graphics.PreferredBackBufferHeight = 600;
             // TODO: use this.Content to load your game content here
-
+            bgm = Content.Load<Song>("BGM");
         }
 
         /// <summary>
@@ -139,11 +143,21 @@ namespace Action
             if (GamePad.GetState(PlayerIndex.One).Buttons.Back == ButtonState.Pressed || Keyboard.GetState().IsKeyDown(Keys.Escape))
                 Exit();
 
+            //BGM
+            if (MediaPlayer.State != MediaState.Playing) //state 状態
+            {
+                MediaPlayer.Play(bgm);
+            }
+
+            //操作制御
             switch (sceneNum)
             {
                 case SceneNum.Title:
                     title.UpAndDown();
-                    if (title.PushEnter()) TutorialInit();
+                    if (title.PushEnter())
+                    {
+                        TutorialInit();
+                    }
                     break;
 
                 case SceneNum.Tutorial:
@@ -161,6 +175,7 @@ namespace Action
                 case SceneNum.Game:
                     Window.Title = "移動回数：" + player.NumberOfMoves + "　 残りのホコリ："+map.EnemyConut+"　　　　　　　リトライ：Kキー";
                     player.Move();
+                    player.Blink();
                     player.Collition(map.MapChipNum, map.ChipSize, map.WallChipNum);
                     player.Scroll(map.Width, map.ChipSize);
 
@@ -173,7 +188,6 @@ namespace Action
                     break;
 
                 case SceneNum.Clear:
-
                     if (stageUi.BarSlide())
                     {
                         ResultInit();
