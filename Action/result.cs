@@ -18,11 +18,12 @@ namespace Action
 
         SpriteFont spriteFont;
         Vector2 fontPos;
+        const int FONT_SIZE=5;
 
         public Result()
         {
             resultPos = new Vector2(0, -30);
-            fontPos = new Vector2(450, 110);
+            fontPos = new Vector2(440, 110);
         }
 
         public void SetText(ContentManager content)
@@ -33,7 +34,7 @@ namespace Action
         public void Draw(int numberOfMoves,SpriteBatch spriteBatch)
         {
             spriteBatch.Draw(result,  resultPos, Color.White);
-            spriteBatch.DrawString(spriteFont, numberOfMoves.ToString(), fontPos, Color.Black,MathHelper.ToRadians(0),Vector2.Zero,5,SpriteEffects.None,0);
+            spriteBatch.DrawString(spriteFont, numberOfMoves.ToString(), fontPos, Color.Black,MathHelper.ToRadians(0),Vector2.Zero,FONT_SIZE,SpriteEffects.None,0);
         }
     }
 }

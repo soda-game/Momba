@@ -90,7 +90,7 @@ namespace Action
 
             //クラスに持たせてると結局ロードしなきゃいけない…うーん
             map.Load(Content);
-            player.SetTexture(Content);
+            player.Load(Content);
 
         }
 

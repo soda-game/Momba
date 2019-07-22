@@ -52,6 +52,12 @@ namespace Action
         }
         public int WallChipNum => (int)MapNum.WallNum;
 
+        //スケール
+        const int END_COUNT = 60;
+        const int BIG_COUNT = 30;
+        const int BIG_SCALE=2;
+        const int SMALL_SCALE = -5;
+
         //SE
         SoundEffect hokoriGetSE;
 
@@ -73,17 +79,17 @@ namespace Action
         {
             count++;
 
-            if (count >= 60)
+            if (count >= END_COUNT)
             {
                 count = 0;
             }
-            else if (count < 30)
+            else if (count < BIG_COUNT)
             {
-                scaling = 2;
+                scaling = BIG_SCALE;
             }
             else
             {
-                scaling = -5;
+                scaling = SMALL_SCALE;
             }
 
         }
@@ -130,7 +136,7 @@ namespace Action
             {
                 for (int j = 0; j < WIDTH; j++)
                 {
-                    //なんとか外で処理できないか粘ったけどダメだったやつ
+                    //なんとか外で処理できないか粘ったけどダメだったやつ //というか面倒くさかった
                     int chipScal = CHIP_SIZE;
                     if (mapChipNum[i, j] == (int)MapNum.EnemyNum)
                     {
