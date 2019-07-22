@@ -21,6 +21,7 @@ namespace Action
         const int SLOW = 2;
         const int FAST = 30;
 
+        const int CHANGE_SPEED_END = 110;
         const int CHANGE_FAST_POS = 80;
         const int CHANGE_SLOW_POS = 19;
 
@@ -50,7 +51,7 @@ namespace Action
         {
             bool slideEnd = false;
             count++;
-            if (count > 110)
+            if (count > CHANGE_SPEED_END)
             {
                 velocity.X = 0;
                 slideEnd = true;

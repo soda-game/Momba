@@ -37,9 +37,12 @@ namespace Action
         //まばたきアニメーション
         int blinkCount;
         int blinkF;
+        const int BLINK_CLAUSE = 130;
+        const int BLINK_OPEN = 140;
 
         //フラグ
         bool nowMove;
+        const int MAX_MOVE_COUNT=100;
         int numbreOfMoves;
         public int NumberOfMoves => numbreOfMoves;
         bool keyPushF;
@@ -70,11 +73,11 @@ namespace Action
         {
             blinkCount++;
 
-            if (blinkCount > 140)
+            if (blinkCount > BLINK_OPEN)
             {
                 blinkCount = 0;
                 blinkF = 0;
-            }else if (blinkCount > 130)
+            }else if (blinkCount > BLINK_CLAUSE)
             {
                 blinkF = 1;
             }
@@ -85,7 +88,12 @@ namespace Action
 
             if (Keyboard.GetState().IsKeyDown(Keys.A))
             {
-                velocity.X = -SPEED;
+                if (!nowMove)
+                {
+                    velocity.X = -SPEED;
+                    keyPushF = true;
+                }
+                MoveCount();
             }
             else if (Keyboard.GetState().IsKeyDown(Keys.D))
             {
@@ -99,11 +107,21 @@ namespace Action
             }
             else if (Keyboard.GetState().IsKeyDown(Keys.W))
             {
-                velocity.Y = -SPEED;
+                if (!nowMove)
+                {
+                    velocity.Y = -SPEED;
+                    keyPushF = true;
+                }
+                MoveCount();
             }
             else if (Keyboard.GetState().IsKeyDown(Keys.S))
             {
-                velocity.Y = +SPEED;
+                if (!nowMove)
+                {
+                    velocity.Y = +SPEED;
+                    keyPushF = true;
+                }
+                MoveCount();
             }
             position += velocity;
 
@@ -113,7 +131,7 @@ namespace Action
         //手数カウント制御
         void MoveCount()
         {
-            if (numbreOfMoves < 100 && nowMove && keyPushF) //次のフレームで動いてる→壁ではない & 前フレームでキーが押されている
+            if (numbreOfMoves < MAX_MOVE_COUNT && nowMove && keyPushF) //次のフレームで動いてる→壁ではない & 前フレームでキーが押されている
             {
                 keyPushF = false;
                 numbreOfMoves++;
@@ -191,7 +209,7 @@ namespace Action
 
         public void Draw(SpriteBatch spriteBatch)
         {
-            spriteBatch.Draw(texture, new Rectangle((int)position.X - (int)scroll.X, (int)position.Y, WIDTH, HEIGHT), new Rectangle(64*blinkF, 0, WIDTH, HEIGHT), Color.White);
+            spriteBatch.Draw(texture, new Rectangle((int)position.X - (int)scroll.X, (int)position.Y, WIDTH, HEIGHT), new Rectangle(WIDTH*blinkF, 0, WIDTH, HEIGHT), Color.White);
 
 
         }
