@@ -75,6 +75,7 @@ namespace Action
             hokoriGetSE = content.Load<SoundEffect>("hokoriGetSE");
         }
 
+        //拡縮アニメーション
         public void ChipScaling()
         {
             count++;
@@ -136,7 +137,7 @@ namespace Action
             {
                 for (int j = 0; j < WIDTH; j++)
                 {
-                    //なんとか外で処理できないか粘ったけどダメだったやつ //というか面倒くさかった
+                    //ホコリのアニメーション
                     int chipScal = CHIP_SIZE;
                     if (mapChipNum[i, j] == (int)MapNum.EnemyNum)
                     {
