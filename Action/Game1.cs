@@ -52,8 +52,6 @@ namespace Action
             GameInit();
             TitleInit();
 
-            
-
             base.Initialize();
         }
 
@@ -63,7 +61,6 @@ namespace Action
             title.Load(Content);
             sceneNum = SceneNum.Title;
             Window.Title = "ルンバじゃないよモンバだよ！■■";
-            
         }
 
         void TutorialInit()
@@ -107,7 +104,7 @@ namespace Action
             sceneNum = SceneNum.Result;
             result = new Result();
             result.SetText(Content);
-            Window.Title = "遊んでくれてありがとう！（面白いこと書こうとしたけど何も思いつかなかったよ！）";
+            Window.Title = "遊んでくれてありがとう！";
         }
 
         /// <summary>
@@ -149,7 +146,7 @@ namespace Action
                 MediaPlayer.Play(bgm);
             }
 
-            //操作制御
+            //シーン制御
             switch (sceneNum)
             {
                 case SceneNum.Title:
@@ -173,7 +170,7 @@ namespace Action
                     break;
 
                 case SceneNum.Game:
-                    Window.Title = "移動回数：" + player.NumberOfMoves + "　 残りのホコリ："+map.EnemyConut+"　　　　　　　リトライ：Kキー";
+                    Window.Title = "移動回数：" + player.NumberOfMoves + "　 残りのホコリ：" + map.EnemyConut + "　　　　　　　リトライ：Kキー";
                     player.Move();
                     player.Blink();
                     player.Collition(map.MapChipNum, map.ChipSize, map.WallChipNum);
@@ -188,10 +185,7 @@ namespace Action
                     break;
 
                 case SceneNum.Clear:
-                    if (stageUi.BarSlide())
-                    {
-                        ResultInit();
-                    }
+                    if (stageUi.BarSlide()) ResultInit();
                     break;
 
                 case SceneNum.Result:

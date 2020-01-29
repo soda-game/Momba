@@ -69,6 +69,7 @@ namespace Action
         {
             texture = content.Load<Texture2D>("player");
         }
+        //まばたきアニメーション
         public void Blink()
         {
             blinkCount++;
@@ -83,9 +84,9 @@ namespace Action
             }
         }
 
+        //既に動いてるとき以外は入力を受け付け、進むべき方向に壁があるかをみる
         public void Move()
         {
-
             if (Keyboard.GetState().IsKeyDown(Keys.A))
             {
                 if (!nowMove)
@@ -131,7 +132,7 @@ namespace Action
         //手数カウント制御
         void MoveCount()
         {
-            if (numbreOfMoves < MAX_MOVE_COUNT && nowMove && keyPushF) //次のフレームで動いてる→壁ではない & 前フレームでキーが押されている
+            if (numbreOfMoves < MAX_MOVE_COUNT && nowMove && keyPushF) //今のフレームで動き始める=今フレームで動いている & 今フレームでキーが押されている
             {
                 keyPushF = false;
                 numbreOfMoves++;
@@ -168,6 +169,7 @@ namespace Action
             middleX = ((int)position.X - 1 + WIDTH / 2) / ChipSize;
             middleY = ((int)position.Y - 1 + HEIGHT / 2) / ChipSize;
 
+            //マップチップ配列を参照
             //プレイヤーの右が当たったら
             if (mapChipNum[middleY, rightX] == WallChipNum && position.X + WIDTH > rightX * ChipSize)
             {

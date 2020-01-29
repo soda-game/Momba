@@ -47,6 +47,7 @@ namespace Action
             bar = clearBar;
         }
 
+        //スッて出てくるやつ
         public bool BarSlide()
         {
             bool slideEnd = false;

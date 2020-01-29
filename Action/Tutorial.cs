@@ -12,7 +12,7 @@ using System.Diagnostics;
 
 namespace Action
 {
-    class Tutorial  //タイトルの継承にした方が良かったかもしれなくもない //時すでにおすし
+    class Tutorial 
     {
         Texture2D tutorial;
         Vector2 tutorialPos;
